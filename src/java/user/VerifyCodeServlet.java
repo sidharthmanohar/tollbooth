@@ -5,15 +5,11 @@ package user;
  * and open the template in the editor.
  */
 import java.io.IOException;
-import java.io.PrintWriter;
 import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.sql.Connection;
-//import java.sql.Date;
-import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -22,7 +18,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import com.tce.cse.tollbooth.ConnectionManager;
+import java.sql.PreparedStatement;
 
 /**
  *
@@ -53,14 +49,14 @@ public class VerifyCodeServlet extends HttpServlet {
 
         response.setContentType("text/html;charset=UTF-8");
         barid = request.getParameter("bar_id");
-        s = request.getParameter("toll_id");
+        s= request.getParameter("toll_id");
         cur = Integer.parseInt(s);
         //PrintWriter out = response.getWriter();
         Connection conn = null;
         Statement stmt = null;
         ResultSet rs = null;
         try {
-            conn = ConnectionManager.getDatabaseConnection(request.getServletContext());
+            //conn = ConnectionManager.getDatabaseConnection(request.getServletContext());
             stmt = conn.createStatement();
 
             String sql = "SELECT from_toll_plaza_id,to_toll_plaza_id,registration_time,pass_type FROM ticket WHERE barcode = '" + barid + "';";
@@ -90,7 +86,12 @@ public class VerifyCodeServlet extends HttpServlet {
                         //i=date_cur.compareTo(dNow);
                         if (date_cur.after(date_tkt) && date_cur.before(date_exp)) {
                             response.sendRedirect("user/ticketValid.jsp");
-                            stmt.executeUpdate("INSERT INTO vehicle_registry VALUES('" + barid + "''" + cur + "''" + date_cur + "')");
+                           // stmt.executeUpdate("INSERT INTO vehicle_tracking VALUES('" + barid + "''" + cur + "''" + date_cur + "')");
+                            PreparedStatement p=conn.prepareStatement("INSERT INTO vehicle_tracking VALUES(?,?,?)");
+                            p.setString(1, barid);
+                            p.setInt(2, cur);
+                            p.setTimestamp(3, date_cur);
+                            p.executeUpdate();
                         } else {
                             response.sendRedirect("user/validateError.jsp");
                         }
@@ -98,7 +99,12 @@ public class VerifyCodeServlet extends HttpServlet {
                         //if(date_cur.after(date_tkt)&&date_cur.before())
                         if (date_cur.after(date_tkt) && date_cur.before(date_exp)) {
                             response.sendRedirect("user/ticketValid.jsp");
-                            stmt.executeUpdate("INSERT INTO vehicle_registry VALUES('" + barid + "''" + cur + "''" + date_cur + "')");
+                            //stmt.executeUpdate("INSERT INTO vehicle_registry VALUES('" + barid + "''" + cur + "''" + date_cur + "')");
+                             PreparedStatement p=conn.prepareStatement("INSERT INTO vehicle_tracking VALUES(?,?,?)");
+                            p.setString(1, barid);
+                            p.setInt(2, cur);
+                            p.setTimestamp(3, date_cur);
+                            p.executeUpdate();
                         } else {
                             response.sendRedirect("user/userHome.jsp");
                         }
