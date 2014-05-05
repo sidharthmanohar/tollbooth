@@ -20,7 +20,6 @@
         <servlet-name>VerifyCodeServlet</servlet-name>
         <servlet-class>user.VerifyCodeServlet</servlet-class>
     </servlet>
-    
     <servlet>
         <servlet-name>RedirectUser</servlet-name>
         <servlet-class>login.RedirectUser</servlet-class>
@@ -32,6 +31,10 @@
     <servlet>
         <servlet-name>AdminHome</servlet-name>
         <servlet-class>admin.AdminHome</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>TariffForm</servlet-name>
+        <servlet-class>admin.TariffForm</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>CheckLoginServlet</servlet-name>
@@ -53,18 +56,21 @@
         <servlet-name>VerifyCodeServlet</servlet-name>
         <url-pattern>/user/VerifyCodeServlet</url-pattern>
     </servlet-mapping>
-   
     <servlet-mapping>
         <servlet-name>RedirectUser</servlet-name>
         <url-pattern>/RedirectUser</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>GetReport</servlet-name>
-        <url-pattern>/GetReport</url-pattern>
+        <url-pattern>/admin/GetReport</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>AdminHome</servlet-name>
-        <url-pattern>/AdminHome</url-pattern>
+        <url-pattern>/admin/AdminHome</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>TariffForm</servlet-name>
+        <url-pattern>/admin/TariffForm</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>
