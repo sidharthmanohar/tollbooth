@@ -1,28 +1,38 @@
-package login;
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
 
+package admin;
 import java.io.File;
 import java.io.FileInputStream;
+import login.ConnectionManager;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 /**
  *
- * @author sidharth
+ * @author mari
  */
-public class CheckLoginServlet extends HttpServlet {
+public class AdminReport extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -35,14 +45,8 @@ public class CheckLoginServlet extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-
         response.setContentType("text/html;charset=UTF-8");
-
-        //form values from login.jsp
-        String userID = request.getParameter("userID");
-        String password = request.getParameter("password");
-
-        //load properties file
+        PrintWriter out = response.getWriter();
         ServletContext servletContext = request.getServletContext();
         String propertiesFilePath = servletContext.getRealPath("WEB-INF/tollbooth.properties");
         Properties properties = new Properties();
@@ -50,8 +54,10 @@ public class CheckLoginServlet extends HttpServlet {
 
         Connection conn = null;
         Statement stmt = null;
-        ResultSet rs;
+        ResultSet rs = null;
         try {
+            
+            String tollid=request.getParameter("tollid");
             Class.forName(properties.getProperty("sqldriver"));
             
             conn = DriverManager.getConnection(
@@ -59,58 +65,56 @@ public class CheckLoginServlet extends HttpServlet {
                     properties.getProperty("sqluser"),
                     properties.getProperty("sqlpassword"));
             stmt = conn.createStatement();
-
-            String sql = "SELECT * FROM user_detail WHERE user_id = '" + userID + "';";
-
-            rs = stmt.executeQuery(sql);
-
-            if (rs.next()) {
-                if (rs.getString("password").trim().equals(password)) {
-
-                    HttpSession session = request.getSession(true);
-                    session.setAttribute("userID", rs.getString("user_id"));
-
-                    if (rs.getString("user_type").equals("1")) {
-                        session.setAttribute("userType", "admin");
-                        response.sendRedirect("AdminHome");
-                    }else if(rs.getString("user_type").equals("2")){
-                        session.setAttribute("userType", "user");
-                        response.sendRedirect("user/UserHomeServlet");
-                    }
-                } else {
-                    response.sendRedirect("login.jsp?error=invalidPassword");
-                }
-            } else {
-                response.sendRedirect("login.jsp?error=invalidUser");
+            DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+            Date date= new Date();
+            String today=dateFormat.format(date);
+            
+            String query="select p.toll_plaza_name,pt.pass_type,t.vehicle_no,v.vehicle_type,t.fare_collected from ticket t,toll_plaza p,pass_type pt,vehicle_type v where v.vehicle_type_id=t.vehicle_type_id and pt.pass_id=t.pass_type and p.toll_plaza_id=t.to_toll_plaza_id and Date(t.registration_time)='"+today+"' and t.from_toll_plaza_id='"+tollid+"'";
+            /* TODO output your page herselect * from ticket where Date(registration_time)='"+today+"'"e. You may use following sample code. */
+            String table="<table border=1><tr><th>Destination</th><th>Pass Type</th><th>Registration No</th><th>Vechile Type</th><th>Fare</th></tr>";
+            rs=stmt.executeQuery(query);
+            int total=0;
+            //out.print(today);
+            while(rs.next())
+            {
+                table=table+"<tr><td>"+rs.getString(1)+"</td><td>"+rs.getString(2)+"</td><td>"+rs.getString(3)+"</td><td>"+rs.getString(4)+"</td><td>"+rs.getInt(5)+"</td></tr>";
+                total=total+rs.getInt(5);
             }
-            rs.close();
-        } catch (ClassNotFoundException ex) {
-            //handle error!!!
-            Logger.getLogger(CheckLoginServlet.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (SQLException ex) {
-            //handle error!!!
-            Logger.getLogger(CheckLoginServlet.class.getName()).log(Level.SEVERE, null, ex);
-        } finally {
-            try {
+            table=table+"<tr><td colspan=4>Total</td><td>"+total+"</td></tr></table>";
+            request.setAttribute("dailyreport", table);
+            RequestDispatcher dispatcher = servletContext.getRequestDispatcher("/admin/dailyReport.jsp");
+            dispatcher.forward(request, response);
+        }
+        
+        catch(Exception e)
+        {
+             Logger.getLogger(AdminReport.class.getName()).log(Level.SEVERE, null, e);
+        }
+        finally {
+           try {
                 if (stmt != null) {
                     stmt.close();
                 }
 
             } catch (SQLException ex) {
-                Logger.getLogger(CheckLoginServlet.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(AdminReport.class.getName()).log(Level.SEVERE, null, ex);
             }
             try {
                 if (conn != null) {
                     conn.close();
                 }
             } catch (SQLException ex) {
-                Logger.getLogger(CheckLoginServlet.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(AdminReport.class.getName()).log(Level.SEVERE, null, ex);
             }
-
         }
     }
-
-// <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
+    
+    /**
+     *
+     * @return
+     */
+    
+    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.
      *

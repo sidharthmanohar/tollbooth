@@ -28,6 +28,14 @@
         <servlet-name>RedirectUser</servlet-name>
         <servlet-class>login.RedirectUser</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>GetReport</servlet-name>
+        <servlet-class>admin.AdminReport</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>AdminHome</servlet-name>
+        <servlet-class>admin.AdminHome</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>CheckLoginServlet</servlet-name>
         <url-pattern>/CheckLoginServlet</url-pattern>
@@ -50,11 +58,19 @@
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>ValidateDispatch</servlet-name>
-        <url-pattern>/ValidateDispatch</url-pattern>
+        <url-pattern>/user/ValidateDispatch</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>RedirectUser</servlet-name>
         <url-pattern>/RedirectUser</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>GetReport</servlet-name>
+        <url-pattern>/GetReport</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>AdminHome</servlet-name>
+        <url-pattern>/AdminHome</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>
