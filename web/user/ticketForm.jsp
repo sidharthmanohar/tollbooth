@@ -22,6 +22,26 @@
         <link href="../css/fonts.css" rel="stylesheet" type="text/css" media="all" />      
         <jsp:include page="userHeader.jsp"></jsp:include>
         <jsp:include page="menu.jsp?menu=issueticket"></jsp:include>           
+
+            <script>
+                function validator()
+                {
+                    //this function validates only one check box
+                    //put a for loop in here to check for each text box
+                    //u could use a count and if count=0 then all boxes are filled
+                    //even if u enter only spaces in the textbox this function will apprehend u!!!
+                    var input = document.getElementById("inputbox");
+                    var msgbox = document.getElementById("hiddendiv");
+                    var value = input.value.replace(/\s/g, "");
+                    if (value == "")
+                    {
+                        input.style.border = "2px solid red";  
+                        return false;
+                    }
+                    return true;
+
+                }
+            </script>
         </head>
         <body>
             <div id="wrapper">
@@ -72,7 +92,7 @@
                         <br><br>
                         <input type="submit" value="Issue Ticket" onclick="return validator()"/>
                 </div>
-                
+
             </div>
         </div>
     </body>

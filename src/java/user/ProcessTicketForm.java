@@ -41,7 +41,7 @@ public class ProcessTicketForm extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         //response.setContentType("application/pdf");
         HttpSession session = request.getSession(false);
-        String fromTollPlazaId = (String) session.getAttribute("tollPlazaId");
+
         String toTollPlazaId = request.getParameter("toDestination");
         String vehicleTypeId = request.getParameter("vehicleType");
         String passTypeId = request.getParameter("passType");
@@ -68,7 +68,17 @@ public class ProcessTicketForm extends HttpServlet {
 
             String fromDestination = null, toDestination = null, vehicleType = null, passType = null, sql;
        
-            //get fromDestination
+            String userID = (String) session.getAttribute("userID");
+            
+            //getFromDestination
+            sql = "SELECT tollbooth_id, toll_plaza_id FROM tollbooth where user_id = '"+userID+"';";
+            rs = stmt.executeQuery(sql);
+            rs.next();
+            String fromTollPlazaId = rs.getString("toll_plaza_id");
+            String boothNo = rs.getString("toll_plaza_id");
+            toDestination = rs.getString("tollbooth_id");
+            rs.close();
+            
             sql = "SELECT toll_plaza_name FROM toll_plaza where "
                     + "toll_plaza_id = " + fromTollPlazaId + ";";
             rs = stmt.executeQuery(sql);
@@ -119,8 +129,8 @@ public class ProcessTicketForm extends HttpServlet {
             String barcodeNo = vehicleNo + System.nanoTime();
 
             Timestamp timeStamp = new Timestamp(System.currentTimeMillis());
+            
             //enter details in databse         
-
             sql = "INSERT INTO ticket VALUES ("
                     + " '" + barcodeNo + "' ,"
                     + fromTollPlazaId + ","
@@ -148,7 +158,7 @@ public class ProcessTicketForm extends HttpServlet {
             session.setAttribute("timeStamp", timeStamp);
             RequestDispatcher dispatcher = servletContext.getRequestDispatcher("/user/printTicket.jsp");
             dispatcher.forward(request, response);
-            response.sendRedirect("printTicket.jsp");
+          
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(ProcessTicketForm.class.getName()).log(Level.SEVERE, null, ex);
         } catch (SQLException ex) {
