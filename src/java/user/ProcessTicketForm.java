@@ -18,8 +18,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
-import javax.servlet.RequestDispatcher;
-import org.apache.catalina.Session;
 
 /**
  *
@@ -70,22 +68,23 @@ public class ProcessTicketForm extends HttpServlet {
        
             String userID = (String) session.getAttribute("userID");
             
-            //getFromDestination
-            sql = "SELECT tollbooth_id, toll_plaza_id FROM tollbooth where user_id = '"+userID+"';";
+            //get boothNo
+            sql = "SELECT tollbooth_no, toll_plaza_id FROM user_detail where user_id = '"+userID+"';";
             rs = stmt.executeQuery(sql);
             rs.next();
             String fromTollPlazaId = rs.getString("toll_plaza_id");
-            String boothNo = rs.getString("toll_plaza_id");
-            toDestination = rs.getString("tollbooth_id");
+            String boothNo = rs.getString("tollbooth_no");
             rs.close();
             
+            //get fromDestination
             sql = "SELECT toll_plaza_name FROM toll_plaza where "
                     + "toll_plaza_id = " + fromTollPlazaId + ";";
             rs = stmt.executeQuery(sql);
             rs.next();
             fromDestination = rs.getString("toll_plaza_name");
             rs.close();
-           
+            
+
             //get toDestination
             sql = "SELECT toll_plaza_name FROM toll_plaza where "
                     + "toll_plaza_id = " + toTollPlazaId + ";";
@@ -135,6 +134,7 @@ public class ProcessTicketForm extends HttpServlet {
                     + " '" + barcodeNo + "' ,"
                     + fromTollPlazaId + ","
                     + toTollPlazaId + ","
+                    + boothNo + ","
                     + passTypeId + ","
                     + "'" + vehicleNo + "',"
                     + vehicleTypeId + ","
@@ -145,7 +145,8 @@ public class ProcessTicketForm extends HttpServlet {
             sql = "INSERT INTO `vehicle_tracking` VALUES ('"
                     + barcodeNo + "',"
                     + fromTollPlazaId + ","
-                    + " '" + timeStamp + "' );";
+                    + " '" + timeStamp + "', "
+                    +  boothNo + ");";
             stmt.executeUpdate(sql);
             
             session.setAttribute("fromDestination", fromDestination);
@@ -156,8 +157,9 @@ public class ProcessTicketForm extends HttpServlet {
             session.setAttribute("fare", fare);
             session.setAttribute("barcodeNo", barcodeNo);
             session.setAttribute("timeStamp", timeStamp);
-            RequestDispatcher dispatcher = servletContext.getRequestDispatcher("/user/printTicket.jsp");
-            dispatcher.forward(request, response);
+            //RequestDispatcher dispatcher = servletContext.getRequestDispatcher("/user/printTicket.jsp");
+            //dispatcher.forward(request, response);
+            response.sendRedirect("/tollbooth/user/printTicket.jsp");
           
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(ProcessTicketForm.class.getName()).log(Level.SEVERE, null, ex);

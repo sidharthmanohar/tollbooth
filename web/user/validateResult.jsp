@@ -2,7 +2,11 @@
     Document   : validateResult
     Created on : 5 May, 2014, 7:33:58 PM
 --%>
-
+<%
+    HttpSession currentSession = request.getSession(false);
+    String user = (String) currentSession.getAttribute("userType");
+    if (user != null && user.equals("user")) {
+%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 
 <!DOCTYPE html>
@@ -33,3 +37,9 @@
             </div>
         </div>
 </html>
+
+<%
+    } else {
+        response.sendRedirect("../RedirectUser");
+    }
+%>
