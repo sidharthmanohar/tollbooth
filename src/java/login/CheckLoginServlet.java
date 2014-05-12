@@ -85,10 +85,10 @@ public class CheckLoginServlet extends HttpServlet {
             }
             rs.close();
         } catch (ClassNotFoundException ex) {
-            //handle error!!!
+            response.sendRedirect("error.jsp");
             Logger.getLogger(CheckLoginServlet.class.getName()).log(Level.SEVERE, null, ex);
         } catch (SQLException ex) {
-            //handle error!!!
+            response.sendRedirect("error.jsp");
             Logger.getLogger(CheckLoginServlet.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
             try {
