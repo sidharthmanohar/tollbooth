@@ -35,7 +35,7 @@
                     var value = input.value.replace(/\s/g, "");
                     if (value == "")
                     {
-                        input.style.border = "2px solid red";  
+                        input.style.border = "2px solid red";
                         return false;
                     }
                     return true;
@@ -92,7 +92,6 @@
                         <br><br>
                         <input type="submit" value="Issue Ticket" onclick="return validator()"/>
                 </div>
-
             </div>
         </div>
     </body>
@@ -101,4 +100,5 @@
 <%
     } else {
         response.sendRedirect("../RedirectUser");
-    }%>
+    }
+%>
