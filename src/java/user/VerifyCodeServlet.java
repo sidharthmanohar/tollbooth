@@ -63,7 +63,7 @@ public class VerifyCodeServlet extends HttpServlet {
         Connection conn = null;
         Statement stmt = null;
         ResultSet rs = null;
-        
+
         try {
             Class.forName(properties.getProperty("sqldriver"));
             conn = DriverManager.getConnection(
@@ -74,15 +74,15 @@ public class VerifyCodeServlet extends HttpServlet {
 
             //retireve value of s(toll_id)
             String userID = (String) session.getAttribute("userID");
-            String sql = "SELECT  toll_plaza_id FROM tollbooth where user_id = '"+userID+"';";
+            String sql = "SELECT  toll_plaza_id FROM tollbooth where user_id = '" + userID + "';";
             rs = stmt.executeQuery(sql);
             rs.next();
             String s = rs.getString("toll_plaza_id");
             rs.close();
-            
+
             barid = request.getParameter("bar_id");
             cur = Integer.parseInt(s);
-            
+
             sql = "SELECT from_toll_plaza_id,to_toll_plaza_id,registration_time,pass_type FROM ticket WHERE barcode = '" + barid + "';";
 
             dNow = new Date();
@@ -116,6 +116,7 @@ public class VerifyCodeServlet extends HttpServlet {
                             p.setInt(2, cur);
                             p.setTimestamp(3, date_cur);
                             p.executeUpdate();
+        
                         } else {
                             response.sendRedirect("validateResult.jsp?valid=false");
                         }

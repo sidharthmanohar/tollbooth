@@ -36,6 +36,10 @@
         <servlet-name>TariffForm</servlet-name>
         <servlet-class>admin.TariffForm</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>ProcessTariffForm</servlet-name>
+        <servlet-class>admin.ProcessTariffForm</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>CheckLoginServlet</servlet-name>
         <url-pattern>/CheckLoginServlet</url-pattern>
@@ -71,6 +75,10 @@
     <servlet-mapping>
         <servlet-name>TariffForm</servlet-name>
         <url-pattern>/admin/TariffForm</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ProcessTariffForm</servlet-name>
+        <url-pattern>/admin/ProcessTariffForm</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>
