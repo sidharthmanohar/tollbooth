@@ -10,8 +10,8 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>JSP Page</title>
-        <link href="css/default.css" rel="stylesheet" type="text/css" media="all" />
-        <link href="css/fonts.css" rel="stylesheet" type="text/css" media="all" />      
+        <link href="../css/default.css" rel="stylesheet" type="text/css" media="all" />
+        <link href="../css/fonts.css" rel="stylesheet" type="text/css" media="all" />      
         <jsp:include page="adminHeader.jsp"></jsp:include>
         <jsp:include page="adminMenu.jsp?menu=dialyreport"></jsp:include>
     <script>

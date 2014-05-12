@@ -3,7 +3,11 @@
     Created on : 5 May, 2014, 4:06:20 PM
     Author     : priya p
 --%>
-
+<%
+    HttpSession currentSession = request.getSession(false);
+    String user = (String) currentSession.getAttribute("userType");
+    if (user != null && user.equals("admin")) {
+%>
 <%@page import="java.util.List"%>
 <%@page import="java.util.Iterator"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
@@ -20,20 +24,22 @@
             <script>
                 function validator()
                 {
-                    //this function validates only one check box
-                    //put a for loop in here to check for each text box
-                    //u could use a count and if count=0 then all boxes are filled
-                    //even if u enter only spaces in the textbox this function will apprehend u!!!
-                    var input = document.getElementById("inputbox");
-                    var msgbox = document.getElementById("hiddendiv");
-                    var value = input.value.replace(/\s/g, "");
-                    if (value == "")
-                    {
-                        input.style.border = "2px solid red";
-                        return false;
+                    var count = 0;
+                    for (var i = 1; i <= 2; i++) {
+                        var txtBox = "inputbox" + i;
+                        var input = document.getElementById(txtBox);
+                        var value = input.value.replace(/\s/g, "");
+                        if (value == "")
+                        {
+                            input.style.border = "2px solid red";
+                            count = count + 1;
+                        }
+                       
                     }
-                    return true;
-
+                    if(count == 0){
+                        return true;
+                    }
+                    return false;
                 }
             </script>
         </head>
@@ -44,9 +50,9 @@
                     <h3>Enter tariff detail</h3>
                     <br><br>
                     <div class="page-form">
-                        <form action="ProcessTicketForm" method="post">
+                        <form action="ProcessTariffForm" method="post">
                             Toll Plaza 1&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:
-                            <select name="tollPlaza1">            
+                            <select name="tollPlazaId1">            
                             <%
                                 Iterator<String> tollPlazaId = ((List<String>) request.getAttribute("tollPlazaId")).iterator();
                                 Iterator<String> tollPlazaName = ((List<String>) request.getAttribute("tollPlazaName")).iterator();
@@ -57,7 +63,7 @@
                         </select>
                         <br><br>
                         Toll Plaza 2&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:
-                        <select name="tollPlaza2">            
+                        <select name="tollPlazaId2">            
                             <%
                                 tollPlazaId = ((List<String>) request.getAttribute("tollPlazaId")).iterator();
                                 tollPlazaName = ((List<String>) request.getAttribute("tollPlazaName")).iterator();
@@ -68,7 +74,7 @@
                         </select>
                         <br><br>
                         Vehicle Type&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: 
-                        <select name="vehicleType">  
+                        <select name="vehicleTypeId">  
                             <%
                                 Iterator<String> vehicleTypeId = ((List<String>) request.getAttribute("vehicleTypeId")).iterator();
                                 Iterator<String> vehicleType = ((List<String>) request.getAttribute("vehicleType")).iterator();
@@ -80,7 +86,7 @@
                         <br><br>
 
                         Pass Type&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: 
-                        <select name="passType">   
+                        <select name="passTypeId">   
                             <%
                                 Iterator<String> passTypeId = ((List<String>) request.getAttribute("passTypeId")).iterator();
                                 Iterator<String> passType = ((List<String>) request.getAttribute("passType")).iterator();
@@ -93,15 +99,21 @@
                         <br><br>
 
                         Effect From&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:
-                        <input type="date" name="EffectFromDate"/>
+                        <input type="date" name="effectFromDate" id="inputbox1"/>
                         <br><br>
                         Tariff&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:
-                        <input type="text" name="Fare"/>
+                        <input type="text" name="fare" id="inputbox2"/>
                         <br><br>
-                        <input type="submit" value="Issue Ticket" onclick="return validator()"/>
+                        <input type="submit" value="submit" onclick="return validator()"/>
                 </div>
             </div>
         </div>
     </body>
 
 </html>
+
+<%
+    } else {
+        response.sendRedirect("../RedirectUser");
+    }
+%>
