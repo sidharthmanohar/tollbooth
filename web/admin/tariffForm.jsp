@@ -33,6 +33,8 @@
                         {
                             input.style.border = "2px solid red";
                             count = count + 1;
+                        }else{
+                            input.style.border = "2px solid black";
                         }
                        
                     }
@@ -101,7 +103,7 @@
                         Effect From&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:
                         <input type="date" name="effectFromDate" id="inputbox1"/>
                         <br><br>
-                        Tariff&nbsp;(in Rupees)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:
+                        Tariff&nbsp;(in Rupees)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:
                         <input type="text" name="fare" id="inputbox2"/>
                         <br><br>
                         <input type="submit" value="submit" onclick="return validator()"/>

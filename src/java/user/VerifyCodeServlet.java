@@ -74,7 +74,7 @@ public class VerifyCodeServlet extends HttpServlet {
 
             //retireve value of s(toll_id)
             String userID = (String) session.getAttribute("userID");
-            String sql = "SELECT  toll_plaza_id FROM tollbooth where user_id = '" + userID + "';";
+            String sql = "SELECT  toll_plaza_id FROM user_detail where user_id = '" + userID + "';";
             rs = stmt.executeQuery(sql);
             rs.next();
             String s = rs.getString("toll_plaza_id");
