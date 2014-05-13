@@ -36,7 +36,7 @@ public class RedirectUser extends HttpServlet {
                 if (userType.equals("user")) {
                     response.sendRedirect("user/userHome.jsp");
                 } else if (userType.equals("admin")) {
-                    response.sendRedirect("admin/adminHome.jsp");
+                    response.sendRedirect("admin/ReportForm");
                 } else {
                     response.sendRedirect("LogOut");
                 }

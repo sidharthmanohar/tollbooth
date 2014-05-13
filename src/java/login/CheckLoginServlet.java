@@ -72,7 +72,7 @@ public class CheckLoginServlet extends HttpServlet {
 
                     if (rs.getString("user_type").equals("1")) {
                         session.setAttribute("userType", "admin");
-                        response.sendRedirect("admin/AdminHome");
+                        response.sendRedirect("admin/ReportForm");
                     }else if(rs.getString("user_type").equals("2")){
                         session.setAttribute("userType", "user");
                         response.sendRedirect("user/UserHomeServlet");

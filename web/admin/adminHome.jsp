@@ -17,7 +17,10 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>JSP Page</title>
         <link href="../css/default.css" rel="stylesheet" type="text/css" media="all" />
-        <link href="../css/fonts.css" rel="stylesheet" type="text/css" media="all" />      
+        <link href="../css/fonts.css" rel="stylesheet" type="text/css" media="all" /> 
+        <link href="../css/jquery.datetimepicker.css" rel="stylesheet" type="text/css" />
+
+       
         <jsp:include page="adminHeader.jsp"></jsp:include>
         <jsp:include page="adminMenu.jsp?menu=dialyreport"></jsp:include>
         </head>
@@ -44,13 +47,27 @@
                             <h5>select toll plaza:&nbsp;&nbsp;<select name="tollid">
                                     <%out.print(request.getAttribute("toll_list"));%>
                                 </select></h5><br/><br/>
+
                             <input type="submit" value="submit"/>
                         </form>
                     </center>
+
+                    <input type="text" value="2014/03/15 05:06" id="datetimepicker"/><br><br>
                 </div>
             </div>
         </div>
     </body>
+
+
+ <script type="text/javascript" src="../js/jquery.js"></script>
+        <script type="text/javascript" src="../js/jquery.datetimepicker.js"></script>
+        <script type="text/javascript">
+            $('#datetimepicker').datetimepicker()
+                    .datetimepicker({value: '2015/04/15 05:03', step: 10});
+        </script>
+
+
+
 
 </html>
 
