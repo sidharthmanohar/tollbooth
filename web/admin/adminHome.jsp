@@ -31,17 +31,14 @@
 
                 <div id="page" class="pagebody-centre"> 
                     <center>
-                        <h3>Welcome <%= session.getAttribute("userID")%>(<%= session.getAttribute("userType")%>)
+                        <h3>Daily Report
                     </h3>
                 </center>
                 <br/>
-                <br/>
-                <br/>
+               
                 <div class="page-form">
                     <center>
-                        <h5>
-                            Select a Tollbooth for report
-                        </h5>
+                       
                         <br/>
                         <form action="GetReport" method="post">
                             <h5>select toll plaza:&nbsp;&nbsp;<select name="tollid">
@@ -50,9 +47,7 @@
 
                             <input type="submit" value="submit"/>
                         </form>
-                    </center>
-
-                    <input type="text" value="2014/03/15 05:06" id="datetimepicker"/><br><br>
+                    </center>              
                 </div>
             </div>
         </div>

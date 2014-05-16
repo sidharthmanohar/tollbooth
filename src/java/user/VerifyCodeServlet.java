@@ -109,7 +109,7 @@ public class VerifyCodeServlet extends HttpServlet {
                         //if(date_cur.after(date_tkt)&&date_cur.before(cur))
                         //i=date_cur.compareTo(dNow);
                         if (date_cur.after(date_tkt) && date_cur.before(date_exp)) {
-                            response.sendRedirect("user/validateResult.jsp?valid=true");
+                            response.sendRedirect("validateResult.jsp?valid=true");
                             // stmt.executeUpdate("INSERT INTO vehicle_tracking VALUES('" + barid + "''" + cur + "''" + date_cur + "')");
                             PreparedStatement p = conn.prepareStatement("INSERT INTO vehicle_tracking VALUES(?,?,?)");
                             p.setString(1, barid);
@@ -123,7 +123,7 @@ public class VerifyCodeServlet extends HttpServlet {
                     } else if (pass == 2) {
                         //if(date_cur.after(date_tkt)&&date_cur.before())
                         if (date_cur.after(date_tkt) && date_cur.before(date_exp)) {
-                            response.sendRedirect("ticketValid.jsp");
+                            response.sendRedirect("validateResult.jsp?valid=true");
                             //stmt.executeUpdate("INSERT INTO vehicle_registry VALUES('" + barid + "''" + cur + "''" + date_cur + "')");
                             PreparedStatement p = conn.prepareStatement("INSERT INTO vehicle_tracking VALUES(?,?,?)");
                             p.setString(1, barid);

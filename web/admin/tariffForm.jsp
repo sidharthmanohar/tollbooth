@@ -17,7 +17,8 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>JSP Page</title>
         <link href="../css/default.css" rel="stylesheet" type="text/css" media="all" />
-        <link href="../css/fonts.css" rel="stylesheet" type="text/css" media="all" />      
+        <link href="../css/fonts.css" rel="stylesheet" type="text/css" media="all" />    
+        <link href="../css/jquery.datetimepicker.css" rel="stylesheet" type="text/css" />
         <jsp:include page="adminHeader.jsp"></jsp:include>
         <jsp:include page="adminMenu.jsp?menu=Tariff"></jsp:include>           
 
@@ -102,6 +103,7 @@
 
                         Effect From&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:
                         <input type="date" name="effectFromDate" id="inputbox1"/>
+                
                         <br><br>
                         Tariff&nbsp;(in Rupees)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:
                         <input type="text" name="fare" id="inputbox2"/>
@@ -111,6 +113,18 @@
             </div>
         </div>
     </body>
+
+    <script type="text/javascript" src="../js/jquery.js"></script>
+    <script type="text/javascript" src="../js/jquery.datetimepicker.js"></script>
+    <script type="text/javascript">
+       $('#inputbox1').datetimepicker({
+	
+	timepicker:false,
+	format:'Y-m-d',
+	formatDate:'Y-m-d'
+	
+});
+    </script>
 
 </html>
 
