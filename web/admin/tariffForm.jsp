@@ -34,12 +34,12 @@
                         {
                             input.style.border = "2px solid red";
                             count = count + 1;
-                        }else{
+                        } else {
                             input.style.border = "2px solid black";
                         }
-                       
+
                     }
-                    if(count == 0){
+                    if (count == 0) {
                         return true;
                     }
                     return false;
@@ -103,7 +103,7 @@
 
                         Effect From&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:
                         <input type="date" name="effectFromDate" id="inputbox1"/>
-                
+
                         <br><br>
                         Tariff&nbsp;(in Rupees)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:
                         <input type="text" name="fare" id="inputbox2"/>
@@ -112,19 +112,19 @@
                 </div>
             </div>
         </div>
+        <script type="text/javascript" src="../js/jquery.js"></script>
+        <script type="text/javascript" src="../js/jquery.datetimepicker.js"></script>
+        <script type="text/javascript">
+                                $('#inputbox1').datetimepicker({
+                                    timepicker: false,
+                                    format: 'Y-m-d',
+                                    formatDate: 'Y-m-d'
+
+                                });
+        </script>
+
     </body>
 
-    <script type="text/javascript" src="../js/jquery.js"></script>
-    <script type="text/javascript" src="../js/jquery.datetimepicker.js"></script>
-    <script type="text/javascript">
-       $('#inputbox1').datetimepicker({
-	
-	timepicker:false,
-	format:'Y-m-d',
-	formatDate:'Y-m-d'
-	
-});
-    </script>
 
 </html>
 
