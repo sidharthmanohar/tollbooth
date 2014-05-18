@@ -67,6 +67,10 @@
                               
                             <table>
                                 <tr>
+                                    <td>Ticket No.  </td>
+                                    <td>: &nbsp;<%= session.getAttribute("ticketNo")%> </td>           
+                            </tr>   
+                                <tr>
                                     <td>Toll Plaza  </td>
                                     <td>: &nbsp;<%= session.getAttribute("fromDestination")%> </td>           
                             </tr>   
@@ -98,11 +102,7 @@
                             <tr>
                                 <td>Vehicle No</td>
                                 <td>: &nbsp;<%= session.getAttribute("vehicleNo")%> </td>           
-                            </tr>
-                           
-                            
-                          
-                           
+                            </tr>                           
                         </table>              
                         <br>
                         <img src="../GenerateBarcodeServlet?barcodeNo=<%= session.getAttribute("barcodeNo")%>">

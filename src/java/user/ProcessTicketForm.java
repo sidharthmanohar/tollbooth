@@ -130,9 +130,33 @@ public class ProcessTicketForm extends HttpServlet {
             String barcode = "";
             barcode += fromTollPlazaId;
             barcode += boothNo;
-            barcode += Long.toString(System.currentTimeMillis()/1000);
+            barcode += Long.toString(System.currentTimeMillis() / 1000);
+
+            long time = System.currentTimeMillis();
+            Timestamp timeStamp = new Timestamp(time);
+            Timestamp validity = null;
+            if(Integer.parseInt(passTypeId) == 1 || Integer.parseInt(passTypeId) == 2){
+                validity = new Timestamp(time + 86400000);
+            }else{
+                Calendar c =  Calendar.getInstance();
+                c.setTimeInMillis(time);
+                int month = c.get(Calendar.MONTH);
+            }
+
             
-            Timestamp timeStamp = new Timestamp(System.currentTimeMillis());
+            //get last ticket no
+            sql = "SELECT max(ticket_no) FROM ticket WHERE tollbooth_id = " + boothNo + " AND from_toll_plaza_id = " + fromTollPlazaId;
+            rs = stmt.executeQuery(sql);
+            long ticketNo = 0;
+            if (rs.next()) {
+                String prevTicketNo = rs.getString(1);
+                prevTicketNo = prevTicketNo.substring(5);
+                ticketNo = Long.parseLong(prevTicketNo);
+                System.out.println("yes");
+            }
+            ticketNo++;
+            System.out.println(ticketNo);
+            String newTicketNo = "T" + fromTollPlazaId + "B" + boothNo + "-" + ticketNo;
 
             //enter details in databse         
             sql = "INSERT INTO ticket VALUES ("
@@ -144,7 +168,8 @@ public class ProcessTicketForm extends HttpServlet {
                     + "'" + vehicleNo + "',"
                     + vehicleTypeId + ","
                     + fare + ", "
-                    + "'" + timeStamp + "' );";
+                    + "'" + timeStamp + "', '"
+                    + newTicketNo + "', '" + validity +"');";
             stmt.executeUpdate(sql);
             //update vehicle_tracking table
             sql = "INSERT INTO `vehicle_tracking` VALUES ('"
@@ -162,6 +187,7 @@ public class ProcessTicketForm extends HttpServlet {
             session.setAttribute("fare", fare);
             session.setAttribute("barcodeNo", barcode);
             session.setAttribute("timeStamp", timeStamp);
+            session.setAttribute("ticketNo", newTicketNo);
             //RequestDispatcher dispatcher = servletContext.getRequestDispatcher("/user/printTicket.jsp");
             //dispatcher.forward(request, response);
             response.sendRedirect("/tollbooth/user/printTicket.jsp");

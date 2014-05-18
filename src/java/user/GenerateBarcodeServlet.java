@@ -5,6 +5,7 @@
  */
 package user;
 
+import java.awt.Dimension;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
@@ -45,7 +46,8 @@ public class GenerateBarcodeServlet extends HttpServlet {
             Barcode barCode = BarcodeFactory.createCode128(barcodeNo);
             //remove label
             barCode.setLabel(" ");
-          
+ 
+            // barCode.setBarWidth(1);
             //The following code removes the underlining of label in barcode
             //a bug  in barbecue package!!!
             ByteArrayOutputStream baos = new ByteArrayOutputStream();
