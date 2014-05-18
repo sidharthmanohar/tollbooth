@@ -53,7 +53,7 @@ public class CheckLoginServlet extends HttpServlet {
         ResultSet rs;
         try {
             Class.forName(properties.getProperty("sqldriver"));
-            
+
             conn = DriverManager.getConnection(
                     properties.getProperty("sqlurl"),
                     properties.getProperty("sqluser"),
@@ -73,7 +73,7 @@ public class CheckLoginServlet extends HttpServlet {
                     if (rs.getString("user_type").equals("1")) {
                         session.setAttribute("userType", "admin");
                         response.sendRedirect("admin/ReportForm");
-                    }else if(rs.getString("user_type").equals("2")){
+                    } else if (rs.getString("user_type").equals("2")) {
                         session.setAttribute("userType", "user");
                         response.sendRedirect("user/UserHomeServlet");
                     }

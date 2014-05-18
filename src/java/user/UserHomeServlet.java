@@ -3,7 +3,6 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package user;
 
 import java.io.File;
@@ -26,6 +25,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  *
@@ -43,7 +43,7 @@ public class UserHomeServlet extends HttpServlet {
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
-     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
+    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
 
@@ -66,51 +66,25 @@ public class UserHomeServlet extends HttpServlet {
                     properties.getProperty("sqlpassword"));
             stmt = conn.createStatement();
 
-            List<String> tollPlazaName = new ArrayList<String>();
-            List<String> tollPlazaId = new ArrayList<String>();
-            String sql = "SELECT * FROM toll_plaza;";
+            HttpSession session = request.getSession(true);
+            String userID = (String)session.getAttribute("userID");
+
+            String sql = "SELECT tollbooth_no, toll_plaza_name FROM user_detail u ,toll_plaza t where user_id = '" + userID + "' AND t.toll_plaza_id = u.toll_plaza_id;";
             rs = stmt.executeQuery(sql);
-            while (rs.next()) {
-                tollPlazaId.add(rs.getString("toll_plaza_Id"));
-                tollPlazaName.add(rs.getString("toll_plaza_name"));
-            }
-            rs.close();
+            rs.next();
             
-            List<String> vehicleTypeId = new ArrayList<String>();
-            List<String> vehicleType = new ArrayList<String>();
-            sql = "SELECT * FROM vehicle_type;";
-            rs = stmt.executeQuery(sql);
-            while (rs.next()) {
-                vehicleTypeId.add(rs.getString("vehicle_type_id"));
-                vehicleType.add(rs.getString("vehicle_type"));
-            }
-            rs.close();
-            
-            List<String> passTypeId = new ArrayList<String>();
-            List<String> passType = new ArrayList<String>();
-            sql = "SELECT * FROM pass_type;";
-            rs = stmt.executeQuery(sql);
-            while (rs.next()) {               
-                passTypeId.add(rs.getString("pass_Id"));
-                passType.add(rs.getString("pass_type"));
-            }
+            session.setAttribute("tollBoothNo", rs.getString("tollbooth_no"));
+            session.setAttribute("tollPlazaName", rs.getString("toll_plaza_name"));
             rs.close();
 
-            request.setAttribute("tollPlazaId", tollPlazaId);
-            request.setAttribute("tollPlazaName", tollPlazaName);
-            request.setAttribute("vehicleTypeId", vehicleTypeId);
-            request.setAttribute("vehicleType", vehicleType);
-            request.setAttribute("passTypeId", passTypeId);
-            request.setAttribute("passType", passType);
-            
             RequestDispatcher dispatcher = servletContext.getRequestDispatcher("/user/userHome.jsp");
             dispatcher.forward(request, response);
-            
+
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(TicketForm.class.getName()).log(Level.SEVERE, null, ex);
         } catch (SQLException ex) {
             Logger.getLogger(TicketForm.class.getName()).log(Level.SEVERE, null, ex);
-        }finally {
+        } finally {
             try {
                 if (stmt != null) {
                     stmt.close();

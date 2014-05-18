@@ -31,7 +31,6 @@
                     //u could use a count and if count=0 then all boxes are filled
                     //even if u enter only spaces in the textbox this function will apprehend u!!!
                     var input = document.getElementById("inputbox");
-                    var msgbox = document.getElementById("hiddendiv");
                     var value = input.value.replace(/\s/g, "");
                     if (value == "")
                     {
@@ -41,11 +40,36 @@
                     return true;
 
                 }
+
+
+                function confirmSubmit() {
+
+                    var input = document.getElementById("inputbox");
+                    var value = input.value.replace(/\s/g, "");
+                    if (value == "")
+                    {
+                        input.style.border = "2px solid red";
+                        return false;
+                    }
+
+                    var answer = confirm("Are you sure you want to continue?\nOnce ok is pressed the operation cannot be cancelled.");
+                    if (answer == true)
+                    {
+                        return true;
+                    }
+                    else
+                    {
+                        return false;
+                    }
+                }
+
             </script>
         </head>
         <body>
-            <div id="wrapper">
+            <div id="wrapper">   
                 <div id="page" class="pagebody-centre">
+                      
+                   
                     <h3>Ticket Form</h3>
                     <br><br>
                     <div class="page-form">
@@ -90,7 +114,9 @@
                         Vehicle No&nbsp;&nbsp;&nbsp;&nbsp;:
                         <input type="text" name="vehicleNo" id="inputbox"/> 
                         <br><br>
-                        <input type="submit" value="Issue Ticket" onclick="return validator()"/>
+                        <input type="submit" value="Issue Ticket" onclick="{
+                                    return confirmSubmit();
+                                }"/>
                 </div>
             </div>
         </div>

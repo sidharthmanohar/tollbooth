@@ -12,6 +12,9 @@
     %>
     <div id="menu" class="container">
         <ul>       
+            <li <% if (menuSelected.equals("home")) { %>
+                class="current_page_item" <%}%>>
+                <a href="/tollbooth/user/userHome.jsp">Home</a></li>
             <li  <% if (menuSelected.equals("issueticket")) { %>
                 class="current_page_item" <%}%>>
                 <a href="/tollbooth/user/TicketForm">Issue Ticket</a></li>

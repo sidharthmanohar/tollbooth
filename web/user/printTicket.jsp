@@ -63,64 +63,57 @@
                     <div class="page-form">
 
                         <div id="ticket">
-                            <h3>Ticket</h3>
-                            <br>
+                            <h4>MADURAI CORPORATION</h4>
+                              
                             <table>
                                 <tr>
-                                    <td>From  </td>
+                                    <td>Toll Plaza  </td>
                                     <td>: &nbsp;<%= session.getAttribute("fromDestination")%> </td>           
                             </tr>   
-                            <tr>                              
-                                <td>&nbsp;</td>
-                            </tr>
+                          
                             <tr>
-                                <td>To</td>
+                                <td>Destination</td>
                                 <td>:&nbsp; <%= session.getAttribute("toDestination")%> </td>           
                             </tr>
-                            <tr>                              
-                                <td>&nbsp;</td>
+                           
+                            <tr>
+                                <td>Time:</td>
+                                <td>: &nbsp;<%= session.getAttribute("timeStamp")%> </td>           
+                            </tr>
+                            
+                            <tr>
+                                <td>Pass Type</td>
+                                <td>: &nbsp;<%= session.getAttribute("passType")%> </td>           
+                            </tr>
+                           
+                            <tr>
+                                <td>Fee</td>
+                                <td>: &nbsp;<%= session.getAttribute("fare")%> </td>           
                             </tr>
                             <tr>
                                 <td>Vehicle Type</td>
                                 <td>:&nbsp; <%= session.getAttribute("vehicleType")%> </td>           
                             </tr>
-                            <tr>                              
-                                <td>&nbsp;</td>
-                            </tr>
+                         
                             <tr>
                                 <td>Vehicle No</td>
                                 <td>: &nbsp;<%= session.getAttribute("vehicleNo")%> </td>           
                             </tr>
-                            <tr>                              
-                                <td>&nbsp;</td>
-                            </tr>
-                            <tr>
-                                <td>Pass Type</td>
-                                <td>: &nbsp;<%= session.getAttribute("passType")%> </td>           
-                            </tr>
-                            <tr>                              
-                                <td>&nbsp;</td>
-                            </tr>
-                            <tr>
-                                <td>Fare</td>
-                                <td>: &nbsp;<%= session.getAttribute("fare")%> </td>           
-                            </tr>
-                            <tr>                              
-                                <td>&nbsp;</td>
-                            </tr>
-                            <tr>
-                                <td>Time:</td>
-                                <td>: &nbsp;<%= session.getAttribute("timeStamp")%> </td>           
-                            </tr>
-                            <tr>                              
-                                <td>&nbsp;</td>
-                            </tr>
+                           
+                            
+                          
+                           
                         </table>              
                         <br>
                         <img src="../GenerateBarcodeServlet?barcodeNo=<%= session.getAttribute("barcodeNo")%>">
                     </div>
                     <br>
-                    <input type="button" value="Print Ticket" onClick="printme()">
+                    
+                    <form action="TicketForm">
+                        <input type="button" value="Print Ticket" onClick="printme()">
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        <input type="submit" value="Next Ticket">
+                    </form>
                 </div>
             </div>
         </div>

@@ -3,9 +3,10 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package user;
 
+import java.io.ByteArrayOutputStream;
+import java.io.File;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -37,12 +38,23 @@ public class GenerateBarcodeServlet extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-       response.setContentType("jpeg/image");
-       //HttpSession session = request.getSession();
-       String barcodeNo = request.getParameter("barcodeNo");
-        try {          
-            Barcode barCode=BarcodeFactory.createCode128(barcodeNo);
-            BarcodeImageHandler.writeJPEG(barCode, response.getOutputStream());
+        response.setContentType("jpeg/image");
+        //HttpSession session = request.getSession();
+        String barcodeNo = request.getParameter("barcodeNo");
+        try {
+            Barcode barCode = BarcodeFactory.createCode128(barcodeNo);
+            //remove label
+            barCode.setLabel(" ");
+          
+            //The following code removes the underlining of label in barcode
+            //a bug  in barbecue package!!!
+            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+            BarcodeImageHandler.writePNG(barCode, baos);
+            File bcImg = File.createTempFile("bc-", ".png");
+            bcImg.deleteOnExit();
+            
+            BarcodeImageHandler.writePNG(barCode, response.getOutputStream());
+            
         } catch (BarcodeException ex) {
             Logger.getLogger(GenerateBarcodeServlet.class.getName()).log(Level.SEVERE, null, ex);
         } catch (OutputException ex) {

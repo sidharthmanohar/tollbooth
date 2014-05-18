@@ -18,6 +18,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
+import java.util.Calendar;
+import java.util.Date;
 
 /**
  *
@@ -65,17 +67,17 @@ public class ProcessTicketForm extends HttpServlet {
             stmt = conn.createStatement();
 
             String fromDestination = null, toDestination = null, vehicleType = null, passType = null, sql;
-       
+
             String userID = (String) session.getAttribute("userID");
-            
+
             //get boothNo
-            sql = "SELECT tollbooth_no, toll_plaza_id FROM user_detail where user_id = '"+userID+"';";
+            sql = "SELECT tollbooth_no, toll_plaza_id FROM user_detail where user_id = '" + userID + "';";
             rs = stmt.executeQuery(sql);
             rs.next();
             String fromTollPlazaId = rs.getString("toll_plaza_id");
             String boothNo = rs.getString("tollbooth_no");
             rs.close();
-            
+
             //get fromDestination
             sql = "SELECT toll_plaza_name FROM toll_plaza where "
                     + "toll_plaza_id = " + fromTollPlazaId + ";";
@@ -83,7 +85,6 @@ public class ProcessTicketForm extends HttpServlet {
             rs.next();
             fromDestination = rs.getString("toll_plaza_name");
             rs.close();
-            
 
             //get toDestination
             sql = "SELECT toll_plaza_name FROM toll_plaza where "
@@ -125,13 +126,17 @@ public class ProcessTicketForm extends HttpServlet {
                 //error no entry found!!!
             }
 
-            String barcodeNo = vehicleNo + System.nanoTime();
-
-            Timestamp timeStamp = new Timestamp(System.currentTimeMillis());
+            //barcode encoding
+            String barcode = "";
+            barcode += fromTollPlazaId;
+            barcode += boothNo;
+            barcode += Long.toString(System.currentTimeMillis()/1000);
             
+            Timestamp timeStamp = new Timestamp(System.currentTimeMillis());
+
             //enter details in databse         
             sql = "INSERT INTO ticket VALUES ("
-                    + " '" + barcodeNo + "' ,"
+                    + " '" + barcode + "' ,"
                     + fromTollPlazaId + ","
                     + toTollPlazaId + ","
                     + boothNo + ","
@@ -143,29 +148,29 @@ public class ProcessTicketForm extends HttpServlet {
             stmt.executeUpdate(sql);
             //update vehicle_tracking table
             sql = "INSERT INTO `vehicle_tracking` VALUES ('"
-                    + barcodeNo + "',"
+                    + barcode + "',"
                     + fromTollPlazaId + ","
                     + " '" + timeStamp + "', "
-                    +  boothNo + ");";
+                    + boothNo + ");";
             stmt.executeUpdate(sql);
-            
+
             session.setAttribute("fromDestination", fromDestination);
             session.setAttribute("toDestination", toDestination);
             session.setAttribute("vehicleType", vehicleType);
             session.setAttribute("passType", passType);
             session.setAttribute("vehicleNo", vehicleNo);
             session.setAttribute("fare", fare);
-            session.setAttribute("barcodeNo", barcodeNo);
+            session.setAttribute("barcodeNo", barcode);
             session.setAttribute("timeStamp", timeStamp);
             //RequestDispatcher dispatcher = servletContext.getRequestDispatcher("/user/printTicket.jsp");
             //dispatcher.forward(request, response);
             response.sendRedirect("/tollbooth/user/printTicket.jsp");
-          
+
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(ProcessTicketForm.class.getName()).log(Level.SEVERE, null, ex);
         } catch (SQLException ex) {
             Logger.getLogger(ProcessTicketForm.class.getName()).log(Level.SEVERE, null, ex);
-        }  finally {
+        } finally {
             try {
                 if (stmt != null) {
                     stmt.close();
