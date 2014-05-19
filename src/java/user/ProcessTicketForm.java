@@ -19,7 +19,6 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.Calendar;
-import java.util.Date;
 
 /**
  *
@@ -103,7 +102,6 @@ public class ProcessTicketForm extends HttpServlet {
             rs.close();
 
             //get pass_type
-            System.out.println(passTypeId);
             sql = "SELECT pass_type FROM pass_type where "
                     + "pass_id = " + passTypeId + ";";
             rs = stmt.executeQuery(sql);
@@ -133,29 +131,35 @@ public class ProcessTicketForm extends HttpServlet {
             barcode += Long.toString(System.currentTimeMillis() / 1000);
 
             long time = System.currentTimeMillis();
-            Timestamp timeStamp = new Timestamp(time);
+            Calendar calender = Calendar.getInstance();
+            
+            Timestamp timeStamp = new Timestamp(calender.getTimeInMillis());
             Timestamp validity = null;
-            if(Integer.parseInt(passTypeId) == 1 || Integer.parseInt(passTypeId) == 2){
+            if (Integer.parseInt(passTypeId) == 1 || Integer.parseInt(passTypeId) == 2) {
                 validity = new Timestamp(time + 86400000);
-            }else{
-                Calendar c =  Calendar.getInstance();
-                c.setTimeInMillis(time);
-                int month = c.get(Calendar.MONTH);
+            } else  if (Integer.parseInt(passTypeId) == 3) {
+                Calendar calValidity = Calendar.getInstance();
+                calValidity.set(Calendar.MONTH, Integer.parseInt((String)request.getParameter("month")));
+                calValidity.set(Calendar.YEAR, Integer.parseInt((String)request.getParameter("year")));
+                calValidity.set(Calendar.DAY_OF_MONTH,calValidity.getActualMaximum(Calendar.DAY_OF_MONTH));
+                calValidity.set(Calendar.HOUR_OF_DAY, 23);
+                calValidity.set(Calendar.MINUTE, 59);
+                calValidity.set(Calendar.SECOND, 59);
+                validity = new Timestamp(calValidity.getTimeInMillis());
             }
 
-            
+     
             //get last ticket no
-            sql = "SELECT max(ticket_no) FROM ticket WHERE tollbooth_id = " + boothNo + " AND from_toll_plaza_id = " + fromTollPlazaId;
+            sql = "SELECT MAX(CONVERT(SUBSTRING(ticket_no,6),UNSIGNED INTEGER)) FROM ticket WHERE tollbooth_id = " + boothNo + " AND from_toll_plaza_id = " + fromTollPlazaId;
             rs = stmt.executeQuery(sql);
             long ticketNo = 0;
             if (rs.next()) {
                 String prevTicketNo = rs.getString(1);
-                prevTicketNo = prevTicketNo.substring(5);
-                ticketNo = Long.parseLong(prevTicketNo);
-                System.out.println("yes");
+                if (prevTicketNo != null) {
+                    ticketNo = Long.parseLong(prevTicketNo);
+                }               
             }
             ticketNo++;
-            System.out.println(ticketNo);
             String newTicketNo = "T" + fromTollPlazaId + "B" + boothNo + "-" + ticketNo;
 
             //enter details in databse         
@@ -169,7 +173,7 @@ public class ProcessTicketForm extends HttpServlet {
                     + vehicleTypeId + ","
                     + fare + ", "
                     + "'" + timeStamp + "', '"
-                    + newTicketNo + "', '" + validity +"');";
+                    + newTicketNo + "', '" + validity + "');";
             stmt.executeUpdate(sql);
             //update vehicle_tracking table
             sql = "INSERT INTO `vehicle_tracking` VALUES ('"
@@ -186,16 +190,18 @@ public class ProcessTicketForm extends HttpServlet {
             session.setAttribute("vehicleNo", vehicleNo);
             session.setAttribute("fare", fare);
             session.setAttribute("barcodeNo", barcode);
-            session.setAttribute("timeStamp", timeStamp);
+            session.setAttribute("boothNo", boothNo);
             session.setAttribute("ticketNo", newTicketNo);
-            //RequestDispatcher dispatcher = servletContext.getRequestDispatcher("/user/printTicket.jsp");
-            //dispatcher.forward(request, response);
+            session.setAttribute("time",String.format("%02d", calender.get(Calendar.HOUR_OF_DAY))+":"+String.format("%02d", calender.get(Calendar.MINUTE)));
+            session.setAttribute("date", calender.get(Calendar.DAY_OF_MONTH)+"/"+(calender.get(Calendar.MONTH) + 1)+"/"+calender.get(Calendar.YEAR));
             response.sendRedirect("/tollbooth/user/printTicket.jsp");
 
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(ProcessTicketForm.class.getName()).log(Level.SEVERE, null, ex);
+            response.sendRedirect("/tollbooth/user/error.jsp");
         } catch (SQLException ex) {
             Logger.getLogger(ProcessTicketForm.class.getName()).log(Level.SEVERE, null, ex);
+            response.sendRedirect("/tollbooth/user/error.jsp");
         } finally {
             try {
                 if (stmt != null) {

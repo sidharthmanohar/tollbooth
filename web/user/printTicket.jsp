@@ -81,10 +81,17 @@
                             </tr>
                            
                             <tr>
-                                <td>Time:</td>
-                                <td>: &nbsp;<%= session.getAttribute("timeStamp")%> </td>           
+                                <td>Date:</td>
+                                <td>: &nbsp;<%= session.getAttribute("date")%> </td>           
                             </tr>
-                            
+                            <tr>
+                                <td>Time:</td>
+                                <td>: &nbsp;<%= session.getAttribute("time")%> </td>           
+                            </tr>
+                            <tr>
+                                <td>Booth No.</td>
+                                <td>: &nbsp;<%= session.getAttribute("boothNo")%> </td>           
+                            </tr>
                             <tr>
                                 <td>Pass Type</td>
                                 <td>: &nbsp;<%= session.getAttribute("passType")%> </td>           

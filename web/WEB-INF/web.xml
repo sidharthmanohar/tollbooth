@@ -16,9 +16,10 @@
         <servlet-name>GenerateBarcodeServlet</servlet-name>
         <servlet-class>user.GenerateBarcodeServlet</servlet-class>
     </servlet>
+    
     <servlet>
-        <servlet-name>VerifyCodeServlet</servlet-name>
-        <servlet-class>user.VerifyCodeServlet</servlet-class>
+        <servlet-name>VerifyTicket</servlet-name>
+        <servlet-class>user.VerifyTicket</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>RedirectUser</servlet-name>
@@ -57,10 +58,6 @@
         <url-pattern>/GenerateBarcodeServlet</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
-        <servlet-name>VerifyCodeServlet</servlet-name>
-        <url-pattern>/user/VerifyCodeServlet</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
         <servlet-name>RedirectUser</servlet-name>
         <url-pattern>/RedirectUser</url-pattern>
     </servlet-mapping>
@@ -75,6 +72,10 @@
     <servlet-mapping>
         <servlet-name>TariffForm</servlet-name>
         <url-pattern>/admin/TariffForm</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>VerifyTicket</servlet-name>
+        <url-pattern>/user/VerifyTicket</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>ProcessTariffForm</servlet-name>

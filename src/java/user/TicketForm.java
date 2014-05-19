@@ -19,6 +19,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  *
@@ -58,16 +59,26 @@ public class TicketForm extends HttpServlet {
                     properties.getProperty("sqlpassword"));
             stmt = conn.createStatement();
 
+            HttpSession session = request.getSession(false);
+            String userID = (String) session.getAttribute("userID");
+            String sql = "SELECT  toll_plaza_id FROM user_detail where user_id = '" + userID + "';";
+            rs = stmt.executeQuery(sql);
+            rs.next();
+            String tollPlazaID = rs.getString("toll_plaza_id");
+            rs.close();
+
             List<String> tollPlazaName = new ArrayList<String>();
             List<String> tollPlazaId = new ArrayList<String>();
-            String sql = "SELECT * FROM toll_plaza;";
+            sql = "SELECT * FROM toll_plaza;";
             rs = stmt.executeQuery(sql);
             while (rs.next()) {
-                tollPlazaId.add(rs.getString("toll_plaza_Id"));
-                tollPlazaName.add(rs.getString("toll_plaza_name"));
+                if (!rs.getString("toll_plaza_Id").equals(tollPlazaID)) {
+                    tollPlazaId.add(rs.getString("toll_plaza_Id"));
+                    tollPlazaName.add(rs.getString("toll_plaza_name"));
+                }
             }
             rs.close();
-            
+
             List<String> vehicleTypeId = new ArrayList<String>();
             List<String> vehicleType = new ArrayList<String>();
             sql = "SELECT * FROM vehicle_type;";
@@ -77,12 +88,12 @@ public class TicketForm extends HttpServlet {
                 vehicleType.add(rs.getString("vehicle_type"));
             }
             rs.close();
-            
+
             List<String> passTypeId = new ArrayList<String>();
             List<String> passType = new ArrayList<String>();
             sql = "SELECT * FROM pass_type;";
             rs = stmt.executeQuery(sql);
-            while (rs.next()) {               
+            while (rs.next()) {
                 passTypeId.add(rs.getString("pass_Id"));
                 passType.add(rs.getString("pass_type"));
             }
@@ -94,15 +105,17 @@ public class TicketForm extends HttpServlet {
             request.setAttribute("vehicleType", vehicleType);
             request.setAttribute("passTypeId", passTypeId);
             request.setAttribute("passType", passType);
-            
+
             RequestDispatcher dispatcher = servletContext.getRequestDispatcher("/user/ticketForm.jsp");
             dispatcher.forward(request, response);
-            
+
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(TicketForm.class.getName()).log(Level.SEVERE, null, ex);
+            response.sendRedirect("/tollbooth/user/error.jsp");
         } catch (SQLException ex) {
             Logger.getLogger(TicketForm.class.getName()).log(Level.SEVERE, null, ex);
-        }finally {
+            response.sendRedirect("/tollbooth/user/error.jsp");
+        } finally {
             try {
                 if (stmt != null) {
                     stmt.close();

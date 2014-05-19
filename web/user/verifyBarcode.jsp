@@ -24,14 +24,19 @@
                     <h3>Scan the barcode to verify</h3>
                     <br>
                     <br>
-                    <form  method="post" action="VerifyCodeServlet"> 
-                        Barcode : <input type="password" name="bar_id"/>                     
+                    <form  method="post" action="VerifyTicket"> 
+                        Barcode : <input type="password" name="barcode"/>      
+
+                        <br><br>
+                        <input type="submit" value="verify"> 
+
+                    </form>
+
                     <br><br>
-                    <input type="submit" value="Submit"> 
-                </form>
+                    <h6>USER GUIDE:<br>Click on the textbox. Scan the barcode using barcode reader and click verify</h6>
+                </div>
             </div>
-        </div>
-</html>
+    </html>
 
 <%
     } else {

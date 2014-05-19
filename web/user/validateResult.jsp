@@ -32,8 +32,12 @@
                     }
                 } else {
                 %>
-                <h3 style="color:#E60000"> Please Retry/h3>
+                <h3 style="color:#E60000"> Please Retry</h3>
                     <% }%>
+                    <br>
+                    <br>
+                    <a href="verifyBarcode.jsp"><button>Back</button></a>
+                    
             </div>
         </div>
 </html>
