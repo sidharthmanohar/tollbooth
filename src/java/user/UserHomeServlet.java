@@ -13,8 +13,6 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -67,23 +65,39 @@ public class UserHomeServlet extends HttpServlet {
             stmt = conn.createStatement();
 
             HttpSession session = request.getSession(true);
-            String userID = (String)session.getAttribute("userID");
+            String userID = (String) session.getAttribute("userID");
 
-            String sql = "SELECT tollbooth_no, toll_plaza_name FROM user_detail u ,toll_plaza t where user_id = '" + userID + "' AND t.toll_plaza_id = u.toll_plaza_id;";
+            String sql = "SELECT tollbooth_no, toll_plaza_name,u.lane FROM user_detail u ,toll_plaza t where user_id = '" + userID + "' AND t.toll_plaza_id = u.toll_plaza_id;";
+            rs = stmt.executeQuery(sql);
+            rs.next();
+            int lane = rs.getInt("lane");
+            System.out.println(lane);
+            session.setAttribute("tollBoothNo", rs.getString("tollbooth_no"));
+            session.setAttribute("tollPlazaName", rs.getString("toll_plaza_name"));
+
+            rs.close();
+            String order;
+            if (lane == 1) {
+               order = "DESC";
+            }else{
+                order = "ASC";
+            }
+
+            sql = "SELECT toll_plaza_name FROM toll_plaza ORDER BY toll_plaza_id "+order;
             rs = stmt.executeQuery(sql);
             rs.next();
             
-            session.setAttribute("tollBoothNo", rs.getString("tollbooth_no"));
-            session.setAttribute("tollPlazaName", rs.getString("toll_plaza_name"));
-            rs.close();
-
+            session.setAttribute("direction", rs.getString("toll_plaza_name"));
+            
             RequestDispatcher dispatcher = servletContext.getRequestDispatcher("/user/userHome.jsp");
             dispatcher.forward(request, response);
 
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(TicketForm.class.getName()).log(Level.SEVERE, null, ex);
+            response.sendRedirect("/tollbooth/user/error.jsp");
         } catch (SQLException ex) {
             Logger.getLogger(TicketForm.class.getName()).log(Level.SEVERE, null, ex);
+            response.sendRedirect("/tollbooth/user/error.jsp");
         } finally {
             try {
                 if (stmt != null) {

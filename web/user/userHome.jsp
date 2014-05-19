@@ -33,15 +33,74 @@
                     <h3>Welcome</h3>
                     <div class="page-form">
                         <br><br>
-                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                        UserID&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:<%=session.getAttribute("userID")%>
-                    <br> <br>
-                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                    Toll Plaza&nbsp;&nbsp;&nbsp;:<%=session.getAttribute("tollPlazaName")%>
-                    <br> <br>
-                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                    Booth No&nbsp;&nbsp;&nbsp;&nbsp;:<%=session.getAttribute("tollBoothNo")%>
+                        <table>
+                            <tr>
+                                <td>
+                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                </td>
+                                <td>
+                                    UserID
+                                </td>
+                                <td>
+                                    :&nbsp;<%=session.getAttribute("userID")%>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                &nbsp;
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                            </td>
+                            <td>
+                                Toll Plaza
+                            </td>
+                            <td>
+                                :&nbsp;<%=session.getAttribute("tollPlazaName")%>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                &nbsp;
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                            </td>
+                            <td>
+                                Booth No
+                            </td>
+                            <td>
+                                :&nbsp;<%=session.getAttribute("tollBoothNo")%>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                &nbsp;
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                            </td>
+                            <td>
+                                Direction of traffic
+                            </td>
+                            <td>
+                                :&nbsp;Towards&nbsp;<%=session.getAttribute("direction")%>
+                            </td>
+                        </tr>
+                    </table>
+
                 </div>
+                <br><br>
+                <h6 style="color:#E60000">Note:<br><br>
+                    If any of the detail is INCORRECT notify the administrator immediately <br>
+                    and DO NOT ISSUE TICKET until corrections are made.
+                </h6>
             </div>
         </div>
     </body>
