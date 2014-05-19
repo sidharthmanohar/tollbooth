@@ -71,7 +71,6 @@ public class UserHomeServlet extends HttpServlet {
             rs = stmt.executeQuery(sql);
             rs.next();
             int lane = rs.getInt("lane");
-            System.out.println(lane);
             session.setAttribute("tollBoothNo", rs.getString("tollbooth_no"));
             session.setAttribute("tollPlazaName", rs.getString("toll_plaza_name"));
 

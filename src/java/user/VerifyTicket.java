@@ -77,13 +77,12 @@ public class VerifyTicket extends HttpServlet {
 
             String barcode = request.getParameter("barcode");
             barcode = barcode.trim();
-            //------start-----------//
+
             sql = "SELECT MAX(registration_time) FROM vehicle_tracking WHERE barcode='" + barcode + "' AND toll_plaza_id=" + tollPlazaID + " AND booth_no=" + boothNo;
             rs = stmt.executeQuery(sql);
             rs.next();
             Timestamp regTime = rs.getTimestamp(1);
             Timestamp now = new Timestamp(System.currentTimeMillis() - 600000);
-            System.out.println(now);
             if (regTime != null && regTime.after(now)) {
                 //user is validating same barcode within 10 min
                 response.sendRedirect("validateResult.jsp?valid=true");
