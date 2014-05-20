@@ -22,7 +22,7 @@
 
        
         <jsp:include page="adminHeader.jsp"></jsp:include>
-        <jsp:include page="adminMenu.jsp?menu=dialyreport"></jsp:include>
+        <jsp:include page="adminMenu.jsp?menu=report"></jsp:include>
         </head>
         <body>
 

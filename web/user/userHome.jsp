@@ -98,10 +98,10 @@
 
                 </div>
                 <br><br>
-                <h6 style="color:#E60000">Note:<br><br>
+                <p style="color:#E60000">Note:<br>
                     If any of the detail is INCORRECT notify the administrator immediately <br>
                     and DO NOT ISSUE TICKET until corrections are made.
-                </h6>
+                </p>
             </div>
         </div>
     </body>

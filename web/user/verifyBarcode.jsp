@@ -34,7 +34,7 @@
                     </form>
 
                     <br><br>
-                    <h6>USER GUIDE:<br>Click on the textbox. Scan the barcode using barcode reader and click verify</h6>
+                    <h4>USER GUIDE:<br>Click on the textbox. Scan the barcode using barcode reader and click verify</h4>
                 </div>
             </div>
     </html>
