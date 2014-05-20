@@ -1,6 +1,6 @@
 <%-- 
-    Document   : tollPlazaReport
-    Created on : 19 May, 2014, 11:31:49 PM
+    Document   : generateBankReport
+    Created on : 20 May, 2014, 9:28:38 AM
     Author     : Chidambaram
 --%>
 
@@ -14,7 +14,7 @@
         <link href="../css/fonts.css" rel="stylesheet" type="text/css" media="all" />   
         <link href="../css/table.css" rel="stylesheet" type="text/css" media="all" />   
         <jsp:include page="adminHeader.jsp"></jsp:include>
-        <jsp:include page="adminMenu.jsp?menu=tollPlazaReport"></jsp:include>
+        <jsp:include page="adminMenu.jsp?menu=generateBankReport"></jsp:include>
             <script>
                 function printPage(id)
                 {
@@ -49,7 +49,7 @@
                             <br/>
                             <h5>
                                 <div class="CSSTableGenerator" style="width:700px;">
-                                <%out.print(request.getAttribute("tollPlazaReport"));%>
+                                <%out.print(request.getAttribute("generateBankReport"));%>
                             </div>
                         </h5><br/><br/>
                         <input type="button" value="Print Report" onclick="printPage('print_content');">

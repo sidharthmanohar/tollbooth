@@ -18,9 +18,17 @@
             <li  <% if (menuSelected.equals("report")) { %>                        
                 class="current_page_item" <%}%> >
                 <a href="ReportForm">Report</a></li>
+            
+             <li  <% if (menuSelected.equals("bankreport")) { %>                        
+                class="current_page_item" <%}%> >
+                <a href="BankReport">Bank Report</a></li>
+             
             <li  <% if (menuSelected.equals("Tariff")) { %>                        
                 class="current_page_item" <%}%> >
                 <a href="TariffForm">Tariff</a></li>
+              <li  <% if (menuSelected.equals("UserManagement")) { %>                        
+                class="current_page_item" <%}%> >
+                <a href="userManagementHome.jsp">User Management</a></li>
             
             
             <li><a href="/tollbooth/LogOut"  >Logout</a></li>
