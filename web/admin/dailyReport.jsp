@@ -47,11 +47,11 @@
                         <center>
 
                             <br/>
-                            <h5>
+       
                                 <div class="CSSTableGenerator" style="width:700px;">
                                 <%out.print(request.getAttribute("dailyreport"));%>
                             </div>
-                        </h5><br/><br/>
+              <br/><br/>
                         <input type="button" value="Print Ticket" onclick="printPage('print_content');">
 
                     </center>

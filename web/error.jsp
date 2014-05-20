@@ -17,6 +17,13 @@
         <link href="css/login.css" rel="stylesheet" >        
         <link href="css/default.css" rel="stylesheet" type="text/css" media="all" />
         <link href="css/fonts.css" rel="stylesheet" type="text/css" media="all" />
+
+        <script>
+            function goBack()
+            {
+                window.history.back()
+            }
+        </script>
     </head>
 
     <body>
@@ -33,10 +40,11 @@
 
             <div id="wrapper">
                 <div id="page" class="pagebody-centre">
-                    <h3 style="color:#E60000">An internal error occured </h3>
-                    <h3 style="color:#E60000">Please try again later
-                    </h3>
+                    <h3 style="color:#E60000">The server encountered an error processing the request.
+                        <br><br>
+                        Please try again, Sorry for the trouble.</h3>                
                     <br><br>
+                    <input type="button" value="Back" onclick="goBack()">
                 </div>
             </div>
 
