@@ -14,7 +14,7 @@
         <link href="../css/fonts.css" rel="stylesheet" type="text/css" media="all" />   
         <link href="../css/table.css" rel="stylesheet" type="text/css" media="all" />   
         <jsp:include page="adminHeader.jsp"></jsp:include>
-        <jsp:include page="adminMenu.jsp?menu=tollPlazaReport"></jsp:include>
+        <jsp:include page="adminMenu.jsp?menu=report"></jsp:include>
             <script>
                 function printPage(id)
                 {

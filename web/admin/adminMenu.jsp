@@ -12,25 +12,16 @@
     %>
     <div id="menu" class="container">
         <ul>                         
-            <li  <% if (menuSelected.equals("dialyreport")) { %>                        
-                class="current_page_item" <%}%> >
-                <a href="AdminHome">Daily Report</a></li>
+
             <li  <% if (menuSelected.equals("report")) { %>                        
                 class="current_page_item" <%}%> >
-                <a href="ReportForm">Report</a></li>
-            
-             <li  <% if (menuSelected.equals("bankreport")) { %>                        
-                class="current_page_item" <%}%> >
-                <a href="BankReport">Bank Report</a></li>
-             
+                <a href="reportMain.jsp">Report</a></li>
             <li  <% if (menuSelected.equals("Tariff")) { %>                        
                 class="current_page_item" <%}%> >
                 <a href="TariffForm">Tariff</a></li>
-              <li  <% if (menuSelected.equals("UserManagement")) { %>                        
+            <li  <% if (menuSelected.equals("UserManagement")) { %>                        
                 class="current_page_item" <%}%> >
                 <a href="userManagementHome.jsp">User Management</a></li>
-            
-            
             <li><a href="/tollbooth/LogOut"  >Logout</a></li>
         </ul>
     </div>

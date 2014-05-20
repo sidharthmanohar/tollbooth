@@ -16,7 +16,7 @@
         <link href="../css/jquery.datetimepicker.css" rel="stylesheet" type="text/css" />
 
         <jsp:include page="adminHeader.jsp"></jsp:include>
-        <jsp:include page="adminMenu.jsp?menu=bankreport"></jsp:include>
+        <jsp:include page="adminMenu.jsp?menu=report"></jsp:include>
         </head>
         <body>
             <div id="wrapper">
