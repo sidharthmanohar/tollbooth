@@ -16,7 +16,6 @@
         <servlet-name>GenerateBarcodeServlet</servlet-name>
         <servlet-class>user.GenerateBarcodeServlet</servlet-class>
     </servlet>
-    
     <servlet>
         <servlet-name>VerifyTicket</servlet-name>
         <servlet-class>user.VerifyTicket</servlet-class>
@@ -40,6 +39,14 @@
     <servlet>
         <servlet-name>ProcessTariffForm</servlet-name>
         <servlet-class>admin.ProcessTariffForm</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>ChangePassword</servlet-name>
+        <servlet-class>admin.ChangePassword</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>CreateAdmin</servlet-name>
+        <servlet-class>admin.CreateAdmin</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>CheckLoginServlet</servlet-name>
@@ -81,47 +88,38 @@
         <servlet-name>ProcessTariffForm</servlet-name>
         <url-pattern>/admin/ProcessTariffForm</url-pattern>
     </servlet-mapping>
-    
-    
-    
-    
-    
-     <servlet>
+    <servlet>
         <servlet-name>GenerateBankReport</servlet-name>
         <servlet-class>admin.GenerateBankReport</servlet-class>
     </servlet>
-	  <servlet>
+    <servlet>
         <servlet-name>BankReport</servlet-name>
         <servlet-class>admin.BankReport</servlet-class>
     </servlet>
-	  <servlet-mapping>
+    <servlet-mapping>
         <servlet-name>GenerateBankReport</servlet-name>
         <url-pattern>/admin/GenerateBankReport</url-pattern>
     </servlet-mapping>
-	
-	 <servlet-mapping>
+    <servlet-mapping>
         <servlet-name>BankReport</servlet-name>
         <url-pattern>/admin/BankReport</url-pattern>
     </servlet-mapping>
-	
-	
-	 <servlet>
+    <servlet>
         <servlet-name>GenerateReport</servlet-name>
         <servlet-class>admin.GenerateReportForm</servlet-class>
     </servlet>
-	
-	 <servlet-mapping>
+    <servlet-mapping>
         <servlet-name>GenerateReport</servlet-name>
         <url-pattern>/admin/GenerateReport</url-pattern>
     </servlet-mapping>
-    
-    
-    
-    
-    
-    
-    
-    
+    <servlet-mapping>
+        <servlet-name>ChangePassword</servlet-name>
+        <url-pattern>/admin/ChangePassword</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>CreateAdmin</servlet-name>
+        <url-pattern>/admin/CreateAdmin</url-pattern>
+    </servlet-mapping>
     <session-config>
         <session-timeout>
             30
