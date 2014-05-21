@@ -99,24 +99,8 @@
             <div id="wrapper">
                 <div id="page" class="pagebody-centre">
 
-                    <br><br>
-
-                    <h4>Create New Administrator</h4>
-                    <form >
-                        UserID &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                        :&nbsp;<input type="text" name="adminUserID" id="adminUserID">
-                        <br><br>
-                        Password&nbsp;
-                        :&nbsp;<input type="password" name="adminPassword" id="adminPassword">
-                        <br><br>
-                        <input type="submit" value="Create Administrator"  onclick="{
-                                    return validateAdmin();
-                                }"/>
-
-                    </form>
-                    <p>-------------------------------------------------------------------------------------</p>
                     <h4>Change Password</h4>
-                    <form >
+                    <form action="ChangePassword" method="post">
                         UserID &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                         :&nbsp;<input type="text" name="changePasswordUserID" id="changePasswordUserID">
                         <br><br>
@@ -125,6 +109,20 @@
                         <br><br>
                         <input type="submit" value="Change Password"  onclick="{
                                     return validateNewPassword();
+                                }"/>
+                    </form>                  
+                    <br><br>
+                    <p>-------------------------------------------------------------------------------------</p>
+                    <h4>Create New Administrator</h4>
+                    <form action="CreateAdmin" method="post">
+                        UserID &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        :&nbsp;<input type="text" name="adminUserID" id="adminUserID">
+                        <br><br>
+                        Password&nbsp;
+                        :&nbsp;<input type="password" name="adminPassword" id="adminPassword">
+                        <br><br>
+                        <input type="submit" value="Create Administrator"  onclick="{
+                                    return validateAdmin();
                                 }"/>
 
                     </form>
