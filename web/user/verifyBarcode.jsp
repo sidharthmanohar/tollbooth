@@ -26,7 +26,7 @@
                     <br>
                     <br>
                     <form  method="post" action="VerifyTicket"> 
-                        Barcode : <input type="password" name="barcode"/>      
+                        Barcode : <input type="text" name="barcode"/>      
 
                         <br><br>
                         <input type="submit" value="verify"> 

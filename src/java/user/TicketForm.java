@@ -72,10 +72,10 @@ public class TicketForm extends HttpServlet {
             sql = "SELECT * FROM toll_plaza;";
             rs = stmt.executeQuery(sql);
             while (rs.next()) {
-                if (!rs.getString("toll_plaza_Id").equals(tollPlazaID)) {
-                    tollPlazaId.add(rs.getString("toll_plaza_Id"));
-                    tollPlazaName.add(rs.getString("toll_plaza_name"));
-                }
+
+                tollPlazaId.add(rs.getString("toll_plaza_Id"));
+                tollPlazaName.add(rs.getString("toll_plaza_name"));
+
             }
             rs.close();
 
