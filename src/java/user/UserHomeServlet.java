@@ -75,18 +75,15 @@ public class UserHomeServlet extends HttpServlet {
             session.setAttribute("tollPlazaName", rs.getString("toll_plaza_name"));
 
             rs.close();
-            String order;
+            String direction;
             if (lane == 1) {
-               order = "DESC";
+               direction = "UP";
             }else{
-                order = "ASC";
+                direction = "DOWN";
             }
 
-            sql = "SELECT toll_plaza_name FROM toll_plaza ORDER BY toll_plaza_id "+order;
-            rs = stmt.executeQuery(sql);
-            rs.next();
             
-            session.setAttribute("direction", rs.getString("toll_plaza_name"));
+            session.setAttribute("direction", direction);
             
             RequestDispatcher dispatcher = servletContext.getRequestDispatcher("/user/userHome.jsp");
             dispatcher.forward(request, response);

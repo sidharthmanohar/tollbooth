@@ -56,7 +56,7 @@
                                 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                             </td>
                             <td>
-                                Toll Plaza
+                                Toll Gate
                             </td>
                             <td>
                                 :&nbsp;<%=session.getAttribute("tollPlazaName")%>
@@ -91,7 +91,7 @@
                                 Direction of traffic
                             </td>
                             <td>
-                                :&nbsp;Towards&nbsp;<%=session.getAttribute("direction")%>
+                                :&nbsp;<%=session.getAttribute("direction")%>
                             </td>
                         </tr>
                     </table>
