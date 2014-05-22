@@ -126,6 +126,7 @@ public class ProcessTicketForm extends HttpServlet {
                 //error no entry found!!!
             }
 
+            passTypeId = actuallID;
             if(actuallID.equals("2")){
                 fare *= 3;
             }
