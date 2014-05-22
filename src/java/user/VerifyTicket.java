@@ -136,6 +136,7 @@ public class VerifyTicket extends HttpServlet {
 
                         } else if (pass == 2) {
                             if (cur >= src && cur <= dest || cur <= src && cur >= dest) {
+                                updateVehicleTracking(stmt, barcode, cur, boothNo);
                                  response.sendRedirect("validateResult.jsp?valid=true");
                             } else {
                                 //   System.out.println("Vehicle out of range");
