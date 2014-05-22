@@ -109,6 +109,8 @@ public class ProcessTicketForm extends HttpServlet {
             passType = rs.getString("pass_type");
             rs.close();
 
+            String actuallID = passTypeId;
+            passTypeId = "1";
             double fare = 0;
             sql = "SELECT fare FROM toll_charge WHERE "
                     + " from_toll_plaza_id = " + fromTollPlazaId
@@ -124,6 +126,10 @@ public class ProcessTicketForm extends HttpServlet {
                 //error no entry found!!!
             }
 
+            passTypeId = actuallID;
+            if(actuallID.equals("2")){
+                fare *= 3;
+            }
             //barcode encoding
             String barcode = "";
             barcode += fromTollPlazaId;
