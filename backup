@@ -1,0 +1,68 @@
+<p>-------------------------------------------------------------------------------------</p>
+                    <h4>Create New Administrator</h4>
+                    <form action="CreateAdmin" method="post">
+                        UserID &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        :&nbsp;<input type="text" name="adminUserID" id="adminUserID">
+                        <br><br>
+                        Password&nbsp;
+                        :&nbsp;<input type="password" name="adminPassword" id="adminPassword">
+                        <br><br>
+                        <input type="submit" value="Create Administrator"  onclick="{
+                                    return validateAdmin();
+                                }"/>
+
+                    </form>
+                    <p>-------------------------------------------------------------------------------------</p>
+                    <h4>Edit User Detail</h4>
+                    <form >
+                        UserID &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        :&nbsp;<input type="text" name="editUserID" id="editUserID">
+                        <br><br>                      
+                        <input type="submit" value="Edit User"  onclick="{
+                                    return validateEditUser();
+                                }"/>
+
+                    </form>
+
+
+function validateAdmin()
+                {
+                    var count = 0;
+                    var txtBox = "adminUserID";
+                    var input = document.getElementById(txtBox);
+                    var value = input.value.replace(/\s/g, "");
+                    if (value == "")
+                    {
+                        input.style.border = "2px solid red";
+                        count = count + 1;
+                    } else {
+                        input.style.border = "2px solid black";
+                    }
+                    txtBox = "adminPassword";
+                    input = document.getElementById(txtBox);
+                    value = input.value.replace(/\s/g, "");
+                    if (value == "")
+                    {
+                        input.style.border = "2px solid red";
+                        count = count + 1;
+                    } else {
+                        input.style.border = "2px solid black";
+                    }
+                    if (count == 0) {
+                        return true;
+                    }
+                    return false;
+                }
+
+ function validateEditUser()
+                {
+                    var txtBox = "editUserID";
+                    var input = document.getElementById(txtBox);
+                    var value = input.value.replace(/\s/g, "");
+                    if (value == "")
+                    {
+                        input.style.border = "2px solid red";
+                        return false;
+                    }
+                    return true;
+                }

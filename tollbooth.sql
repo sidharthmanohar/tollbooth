@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: May 06, 2014 at 12:47 PM
+-- Generation Time: Jun 02, 2014 at 05:22 PM
 -- Server version: 5.6.12-log
 -- PHP Version: 5.4.12
 
@@ -39,8 +39,9 @@ CREATE TABLE IF NOT EXISTS `pass_type` (
 --
 
 INSERT INTO `pass_type` (`pass_id`, `pass_type`) VALUES
-(1, 'one way'),
-(2, 'two way');
+(1, 'Single Trip'),
+(2, 'Multiple Entry'),
+(3, 'Monthly Pass');
 
 -- --------------------------------------------------------
 
@@ -58,6 +59,8 @@ CREATE TABLE IF NOT EXISTS `ticket` (
   `vehicle_type_id` int(11) NOT NULL,
   `fare_collected` bigint(20) NOT NULL,
   `registration_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `ticket_no` varchar(20) NOT NULL,
+  `validity` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`barcode`),
   KEY `from_toll_plaza_id` (`from_toll_plaza_id`),
   KEY `to_toll_plaza_id` (`to_toll_plaza_id`),
@@ -70,12 +73,16 @@ CREATE TABLE IF NOT EXISTS `ticket` (
 -- Dumping data for table `ticket`
 --
 
-INSERT INTO `ticket` (`barcode`, `from_toll_plaza_id`, `to_toll_plaza_id`, `tollbooth_id`, `pass_type`, `vehicle_no`, `vehicle_type_id`, `fare_collected`, `registration_time`) VALUES
-('dc24717299149633', 0, 0, 0, 1, 'dc', 0, 0, '2014-05-06 18:10:55'),
-('dedd24411619967685', 0, 0, 0, 1, 'dedd', 0, 0, '2014-05-06 18:05:49'),
-('ed24679072905133', 0, 0, 0, 1, 'ed', 0, 0, '2014-05-06 18:10:17'),
-('TN59AL24001400111835891', 1, 0, 0, 1, 'TN59AL2400', 0, 300, '2014-05-06 11:42:18'),
-('w24315705555413', 0, 0, 0, 1, 'w', 0, 0, '2014-05-06 18:04:13');
+INSERT INTO `ticket` (`barcode`, `from_toll_plaza_id`, `to_toll_plaza_id`, `tollbooth_id`, `pass_type`, `vehicle_no`, `vehicle_type_id`, `fare_collected`, `registration_time`, `ticket_no`, `validity`) VALUES
+('111400747950', 1, 1, 1, 1, 'TN54AL400', 1, 10, '2014-05-22 14:09:11', 'T1B1-1', '2014-05-23 08:39:11'),
+('111400747971', 1, 1, 1, 1, 'TN45BL600', 1, 30, '2014-05-22 14:09:31', 'T1B1-2', '2014-05-23 08:39:31'),
+('111400747995', 1, 5, 1, 1, 'TN34AL4300', 1, 210, '2014-05-22 14:09:56', 'T1B1-3', '2014-05-23 08:39:56'),
+('111400748121', 1, 5, 1, 2, 'TN45N0000', 1, 210, '2014-05-22 14:12:01', 'T1B1-4', '2014-05-23 08:42:01'),
+('111401716079', 1, 1, 1, 1, 'tn3453', 1, 46, '2014-06-02 19:04:39', 'T1B1-5', '2014-06-03 13:34:39'),
+('111401716749', 1, 1, 1, 1, 'asd', 1, 46, '2014-06-02 19:15:50', 'T1B1-6', '2014-06-03 13:45:50'),
+('111401721330', 1, 1, 1, 1, 'asd', 1, 46, '2014-06-02 20:32:11', 'T1B1-7', '2014-06-03 15:02:11'),
+('111401721432', 1, 1, 1, 1, 'sad', 1, 46, '2014-06-02 20:33:53', 'T1B1-8', '2014-06-03 15:03:53'),
+('141401716102', 1, 1, 4, 1, 'adf', 1, 12, '2014-06-02 19:05:03', 'T1B4-1', '2014-06-03 13:35:03');
 
 -- --------------------------------------------------------
 
@@ -90,6 +97,7 @@ CREATE TABLE IF NOT EXISTS `toll_charge` (
   `fare` int(11) NOT NULL,
   `effect_from` date NOT NULL,
   `vehicle_type_id` int(20) NOT NULL,
+  `direction` int(11) NOT NULL,
   KEY `from_toll_plaza_id` (`from_toll_plaza_id`),
   KEY `to_toll_plaza_id` (`to_toll_plaza_id`),
   KEY `vehicle_type` (`vehicle_type_id`),
@@ -100,9 +108,19 @@ CREATE TABLE IF NOT EXISTS `toll_charge` (
 -- Dumping data for table `toll_charge`
 --
 
-INSERT INTO `toll_charge` (`from_toll_plaza_id`, `to_toll_plaza_id`, `pass_id`, `fare`, `effect_from`, `vehicle_type_id`) VALUES
-(0, 1, 1, 200, '2014-03-15', 0),
-(1, 0, 1, 300, '2014-03-14', 0);
+INSERT INTO `toll_charge` (`from_toll_plaza_id`, `to_toll_plaza_id`, `pass_id`, `fare`, `effect_from`, `vehicle_type_id`, `direction`) VALUES
+(1, 1, 1, 23, '2014-06-03', 1, 2),
+(1, 1, 1, 24, '2014-06-03', 1, 1),
+(1, 2, 1, 25, '2014-06-03', 1, 1),
+(1, 3, 1, 63, '2014-06-03', 1, 1),
+(1, 4, 1, 536, '2014-06-03', 1, 1),
+(1, 5, 1, 563, '2014-06-03', 1, 1),
+(1, 1, 1, 11, '2014-06-02', 1, 2),
+(1, 1, 1, 21, '2014-06-02', 1, 1),
+(1, 2, 1, 2, '2014-06-02', 1, 1),
+(1, 3, 1, 12, '2014-06-02', 1, 1),
+(1, 4, 1, 13, '2014-06-02', 1, 1),
+(1, 5, 1, 13, '2014-06-02', 1, 1);
 
 -- --------------------------------------------------------
 
@@ -124,8 +142,11 @@ CREATE TABLE IF NOT EXISTS `toll_plaza` (
 --
 
 INSERT INTO `toll_plaza` (`toll_plaza_id`, `toll_plaza_name`, `toll_plaza_description`, `no_of_tollbooth`) VALUES
-(0, 'toll plaza 1', 'toll plaza desc', 0),
-(1, 'toll plaza 2', 'toll plaza desc', 0);
+(1, 'Toll Plaza 1', '', 6),
+(2, 'Toll Plaza 2', '', 6),
+(3, 'Toll Plaza 3', '', 6),
+(4, 'Toll Plaza 4', '', 6),
+(5, 'Toll Plaza 5', '', 6);
 
 -- --------------------------------------------------------
 
@@ -139,6 +160,7 @@ CREATE TABLE IF NOT EXISTS `user_detail` (
   `user_type` tinyint(4) NOT NULL,
   `toll_plaza_id` int(11) NOT NULL,
   `tollbooth_no` int(11) NOT NULL,
+  `lane` int(11) NOT NULL,
   PRIMARY KEY (`user_id`),
   KEY `toll_plaza_id` (`toll_plaza_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
@@ -147,9 +169,18 @@ CREATE TABLE IF NOT EXISTS `user_detail` (
 -- Dumping data for table `user_detail`
 --
 
-INSERT INTO `user_detail` (`user_id`, `password`, `user_type`, `toll_plaza_id`, `tollbooth_no`) VALUES
-('admin', 'admin', 1, 0, 0),
-('user', 'user', 2, 0, 0);
+INSERT INTO `user_detail` (`user_id`, `password`, `user_type`, `toll_plaza_id`, `tollbooth_no`, `lane`) VALUES
+('admin', 'admin', 1, 1, 1, 1),
+('plaza1booth1', '11', 2, 1, 1, 1),
+('plaza1booth4', '14', 2, 1, 4, 2),
+('plaza2booth1', '21', 2, 2, 1, 1),
+('plaza2booth4', '24', 2, 2, 4, 2),
+('plaza3booth1', '31', 2, 3, 1, 1),
+('plaza3booth4', '34', 2, 3, 4, 2),
+('plaza4booth1', '41', 2, 4, 1, 1),
+('plaza4booth2', '42', 2, 4, 4, 2),
+('plaza5booth1', '51', 2, 5, 1, 1),
+('plaza5booth4', '54', 2, 5, 4, 2);
 
 -- --------------------------------------------------------
 
@@ -170,10 +201,16 @@ CREATE TABLE IF NOT EXISTS `vehicle_tracking` (
 --
 
 INSERT INTO `vehicle_tracking` (`barcode`, `toll_plaza_id`, `registration_time`, `booth_no`) VALUES
-('TN59AL24001400111835891', 1, '2014-05-06 06:12:18', 0),
-('w24315705555413', 0, '2014-05-06 12:34:13', 0),
-('dedd24411619967685', 0, '2014-05-06 12:35:49', 0),
-('dc24717299149633', 0, '2014-05-06 12:40:55', 0);
+('111400747950', 1, '2014-05-22 08:39:11', 1),
+('111400747971', 1, '2014-05-22 08:39:31', 1),
+('111400747995', 1, '2014-05-22 08:39:56', 1),
+('111400748121', 1, '2014-05-22 08:42:01', 1),
+('111400748121', 2, '2014-05-22 08:43:13', 1),
+('111401716079', 1, '2014-06-02 13:34:39', 1),
+('141401716102', 1, '2014-06-02 13:35:03', 4),
+('111401716749', 1, '2014-06-02 13:45:50', 1),
+('111401721330', 1, '2014-06-02 15:02:11', 1),
+('111401721432', 1, '2014-06-02 15:03:53', 1);
 
 -- --------------------------------------------------------
 
@@ -194,8 +231,9 @@ CREATE TABLE IF NOT EXISTS `vehicle_type` (
 --
 
 INSERT INTO `vehicle_type` (`vehicle_type_id`, `vehicle_type`, `vehicle_description`) VALUES
-(0, 'Heavy Vehicle', 'bus,lorry'),
-(1, 'Light Vehicle', 'car, lorry');
+(1, 'Light Vehicle', 'car, lorry'),
+(2, 'Medium Vehicle', ''),
+(3, 'Heavy Vehicle', 'lorry, bus');
 
 --
 -- Constraints for dumped tables

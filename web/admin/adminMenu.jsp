@@ -8,7 +8,9 @@
 <!DOCTYPE html>
 <div id="menu-wrapper">
     <% String menuSelected = request.getParameter("menu");
-
+        if(menuSelected == null){
+            menuSelected = "";
+        }
     %>
     <div id="menu" class="container">
         <ul>                         
@@ -18,7 +20,7 @@
                 <a href="reportMain.jsp">Report</a></li>
             <li  <% if (menuSelected.equals("Tariff")) { %>                        
                 class="current_page_item" <%}%> >
-                <a href="TariffForm">Tariff</a></li>
+                <a href="TariffMain">Tariff</a></li>
             <li  <% if (menuSelected.equals("UserManagement")) { %>                        
                 class="current_page_item" <%}%> >
                 <a href="userManagementHome.jsp">User Management</a></li>
