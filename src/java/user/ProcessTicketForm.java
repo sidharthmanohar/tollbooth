@@ -69,12 +69,13 @@ public class ProcessTicketForm extends HttpServlet {
 
             String userID = (String) session.getAttribute("userID");
 
-            //get boothNo
-            sql = "SELECT tollbooth_no, toll_plaza_id FROM user_detail where user_id = '" + userID + "';";
+            //get boothNo and lane/direction
+            sql = "SELECT tollbooth_no, toll_plaza_id,lane FROM user_detail where user_id = '" + userID + "';";
             rs = stmt.executeQuery(sql);
             rs.next();
             String fromTollPlazaId = rs.getString("toll_plaza_id");
             String boothNo = rs.getString("tollbooth_no");
+            String direction = rs.getString("lane");
             rs.close();
 
             //get fromDestination
@@ -109,8 +110,6 @@ public class ProcessTicketForm extends HttpServlet {
             passType = rs.getString("pass_type");
             rs.close();
 
-            String actuallID = passTypeId;
-            passTypeId = "1";
             double fare = 0;
             sql = "SELECT fare FROM toll_charge WHERE "
                     + " from_toll_plaza_id = " + fromTollPlazaId
@@ -118,6 +117,7 @@ public class ProcessTicketForm extends HttpServlet {
                     + " AND effect_from <= CURDATE() "
                     + " AND vehicle_type_id = " + vehicleTypeId
                     + " AND pass_id = " + passTypeId
+                    + " AND direction = " + direction
                     + " ORDER BY effect_from DESC;";
             rs = stmt.executeQuery(sql);
             if (rs.next()) {
@@ -125,11 +125,7 @@ public class ProcessTicketForm extends HttpServlet {
             } else {
                 //error no entry found!!!
             }
-
-            passTypeId = actuallID;
-            if(actuallID.equals("2")){
-                fare *= 3;
-            }
+     
             //barcode encoding
             String barcode = "";
             barcode += fromTollPlazaId;

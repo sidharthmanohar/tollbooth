@@ -34,9 +34,9 @@ public class RedirectUser extends HttpServlet {
             String userType = (String) session.getAttribute("userType");
             if (userType != null) {
                 if (userType.equals("user")) {
-                    response.sendRedirect("user/userHome.jsp");
+                    response.sendRedirect("user/UserHomeServlet");
                 } else if (userType.equals("admin")) {
-                    response.sendRedirect("admin/ReportForm");
+                     response.sendRedirect("/tollbooth/admin/reportMain.jsp");
                 } else {
                     response.sendRedirect("LogOut");
                 }

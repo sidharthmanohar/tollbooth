@@ -48,6 +48,22 @@
         <servlet-name>CreateAdmin</servlet-name>
         <servlet-class>admin.CreateAdmin</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>TariffMain</servlet-name>
+        <servlet-class>admin.TariffMain</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>ViewTariff</servlet-name>
+        <servlet-class>admin.ViewTariff</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>UpdateTariffForm</servlet-name>
+        <servlet-class>admin.UpdateTariffForm</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>UpdateTariff</servlet-name>
+        <servlet-class>admin.UpdateTariff</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>CheckLoginServlet</servlet-name>
         <url-pattern>/CheckLoginServlet</url-pattern>
@@ -119,6 +135,22 @@
     <servlet-mapping>
         <servlet-name>CreateAdmin</servlet-name>
         <url-pattern>/admin/CreateAdmin</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>TariffMain</servlet-name>
+        <url-pattern>/admin/TariffMain</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ViewTariff</servlet-name>
+        <url-pattern>/admin/ViewTariff</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>UpdateTariffForm</servlet-name>
+        <url-pattern>/admin/UpdateTariffForm</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>UpdateTariff</servlet-name>
+        <url-pattern>/admin/UpdateTariff</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>
