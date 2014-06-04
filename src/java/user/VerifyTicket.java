@@ -162,7 +162,7 @@ public class VerifyTicket extends HttpServlet {
                                 }
                                 response.sendRedirect("validateResult.jsp?valid=true");
                             } else {
-                                 //   System.out.println("Vehicle out of range");
+                                //   System.out.println("Vehicle out of range");
                                 response.sendRedirect("validateResult.jsp?valid=false");
                             }
 
@@ -183,14 +183,37 @@ public class VerifyTicket extends HttpServlet {
                                 Calendar curCal = Calendar.getInstance();
 
                                 if (curCal.get(Calendar.MONTH) == expCal.get(Calendar.MONTH) && curCal.get(Calendar.YEAR) == expCal.get(Calendar.YEAR)) {
-                                    updateVehicleTracking(stmt, barcode, cur, boothNo);
+
+                                    sql = "SELECT count(*) FROM vehicle_tracking WHERE barcode='" + barcode + "' AND toll_plaza_id=" + tollPlazaID;
+                                    rs = stmt.executeQuery(sql);
+                                    rs.next();
+                                    int count = rs.getInt(1);
+                                    if (count == 0) {
+                                        updateVehicleTracking(stmt, barcode, cur, boothNo);
+                                        response.sendRedirect("validateResult.jsp?valid=true");
+                                    } else if (count == 1) {
+                                        sql = "SELECT booth_no FROM vehicle_tracking WHERE barcode='" + barcode + "' AND toll_plaza_id=" + tollPlazaID;
+                                        rs = stmt.executeQuery(sql);
+                                        rs.next();
+                                        int previousLane = rs.getInt(1);
+                                        if (previousLane != currentLane) {
+                                            updateVehicleTracking(stmt, barcode, cur, boothNo);
+                                            response.sendRedirect("validateResult.jsp?valid=true");
+                                        } else {
+                                            //  System.out.println("Vehicle is re-entering");
+                                            response.sendRedirect("validateResult.jsp?valid=false");
+                                        }
+                                    } else {
+                                        // System.out.println("Vehicle is re-entering");
+                                        response.sendRedirect("validateResult.jsp?valid=false");
+                                    }
                                     response.sendRedirect("validateResult.jsp?valid=true");
                                 } else {
-                                    //   System.out.println("Time Expired");
+                                    //   System.out.println("Ticket Expired");
                                     response.sendRedirect("validateResult.jsp?valid=false");
                                 }
                             } else {
-                                //    System.out.println("Vehicle out of range");
+                                 //   System.out.println("Vehicle out of range");
                                 response.sendRedirect("validateResult.jsp?valid=false");
                             }
 
