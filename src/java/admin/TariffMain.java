@@ -84,24 +84,13 @@ public class TariffMain extends HttpServlet {
                     vehicleTypeId.add(rs.getString("vehicle_type_id"));
                     vehicleType.add(rs.getString("vehicle_type"));
                 }
-                rs.close();
-                
-                List<String> passTypeId = new ArrayList<String>();
-                List<String> passType = new ArrayList<String>();
-                sql = "SELECT * FROM pass_type;";
-                rs = stmt.executeQuery(sql);
-                while (rs.next()) {
-                    passTypeId.add(rs.getString("pass_Id"));
-                    passType.add(rs.getString("pass_type"));
-                }
-                rs.close();
+                rs.close();              
                 
                 request.setAttribute("tollPlazaId", tollPlazaId);
                 request.setAttribute("tollPlazaName", tollPlazaName);
                 request.setAttribute("vehicleTypeId", vehicleTypeId);
                 request.setAttribute("vehicleType", vehicleType);
-                request.setAttribute("passTypeId", passTypeId);
-                request.setAttribute("passType", passType);
+ 
        
                 RequestDispatcher dispatcher = servletContext.getRequestDispatcher("/admin/tariffMain.jsp");
                 dispatcher.forward(request, response);

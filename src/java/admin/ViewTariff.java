@@ -66,8 +66,9 @@ public class ViewTariff extends HttpServlet {
 
             int tollPlazaId = Integer.parseInt(request.getParameter("tollPlazaId"));
             String vehicleTypeId = request.getParameter("vehicleTypeId");
-            String passTypeId = request.getParameter("passTypeId");
             String date = request.getParameter("date");
+            
+            String passTypeId = "1";
 
             String sql = "SELECT toll_plaza_name FROM toll_plaza WHERE toll_plaza_id = " + tollPlazaId;
             rs = stmt.executeQuery(sql);
@@ -88,18 +89,23 @@ public class ViewTariff extends HttpServlet {
             sql = "SELECT count(*) FROM toll_plaza";
             rs = stmt.executeQuery(sql);
             rs.next();
-
             int plazaNo = rs.getInt(1);
 
             String values[][] = new String[plazaNo + 1][4];
 
+            sql = "SELECT name FROM location WHERE location_id = "+(tollPlazaId + 1);
+            rs = stmt.executeQuery(sql);
+            rs.next();
+            String fromLocation = rs.getString(1);
+
             int i;
             SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd-MM-yyyy");
             for (i = 1; i <= tollPlazaId; i++) {
-                sql = "SELECT toll_plaza_name FROM toll_plaza WHERE toll_plaza_id = " + i;
+                values[i - 1][0] = fromLocation;
+                sql = "SELECT name FROM location WHERE location_id = " + i;
                 rs = stmt.executeQuery(sql);
                 rs.next();
-                values[i - 1][0] = rs.getString(1);
+                values[i - 1][1] = rs.getString(1);
 
                 sql = "SELECT fare,effect_from FROM toll_charge WHERE "
                         + " from_toll_plaza_id = " + tollPlazaId
@@ -110,26 +116,32 @@ public class ViewTariff extends HttpServlet {
                         + " AND direction = 2"
                         + " ORDER BY effect_from DESC;";
                 rs = stmt.executeQuery(sql);
-                values[i - 1][1] = "DOWN";
-
+                
                 if (rs.next()) {
                     values[i - 1][2] = rs.getString(1);
+                    values[i - 1][3] = simpleDateFormat.format(rs.getDate(2));
                 } else {
-                    values[i - 1][2] = "0";
+                    values[i - 1][2] = "NOT DATA FOUND";
+                    values[i - 1][3] = "NO DATA FOUND";
                 }
 
-                values[i - 1][3] = simpleDateFormat.format(rs.getDate(2));
             }
             //for(int j = 0; j < values.length; j++){
-            //             System.out.println(values[j][0] +"\t"+values[j][1] +"\t"+values[j][2]);
+            //            System.out.println(values[j][0] +"\t"+values[j][1] +"\t"+values[j][2]);
             //}
 
             i--;
+            sql = "SELECT name FROM location WHERE location_id = "+tollPlazaId;
+            rs = stmt.executeQuery(sql);
+            rs.next();
+            fromLocation = rs.getString(1);
+  
             for (; i <= plazaNo; i++) {
-                sql = "SELECT toll_plaza_name FROM toll_plaza WHERE toll_plaza_id = " + i;
+                values[i][0] = fromLocation;
+                sql = "SELECT name FROM location WHERE location_id = " + (i+1);
                 rs = stmt.executeQuery(sql);
                 rs.next();
-                values[i][0] = rs.getString(1);
+                values[i][1] = rs.getString(1);
 
                 sql = "SELECT fare,effect_from FROM toll_charge WHERE "
                         + " from_toll_plaza_id = " + tollPlazaId
@@ -140,13 +152,15 @@ public class ViewTariff extends HttpServlet {
                         + " AND direction = 1"
                         + " ORDER BY effect_from DESC;";
                 rs = stmt.executeQuery(sql);
-                values[i][1] = "UP";
+              
                 if (rs.next()) {
                     values[i][2] = rs.getString(1);
+                    values[i][3] = simpleDateFormat.format(rs.getDate(2));
                 } else {
-                    values[i][2] = "0";
+                    values[i][2] = "NO DATA FOUND";
+                    values[i][3] = "NO DATA FOUND";
                 }
-                values[i][3] = simpleDateFormat.format(rs.getDate(2));
+                
             }
 
             //for(int j = 0; j < values.length; j++){
@@ -155,7 +169,7 @@ public class ViewTariff extends HttpServlet {
             request.setAttribute("tollPlazaName", tollPlazaName);
             request.setAttribute("vehicleType", vehicleType);
             request.setAttribute("passType", passType);
-            request.setAttribute("date",new SimpleDateFormat("dd-MM-yyyy").format(new SimpleDateFormat("yyyy-MM-dd").parse(date)));
+            request.setAttribute("date", new SimpleDateFormat("dd-MM-yyyy").format(new SimpleDateFormat("yyyy-MM-dd").parse(date)));
             request.setAttribute("fareDetail", values);
             RequestDispatcher dispatcher = servletContext.getRequestDispatcher("/admin/viewTariff.jsp");
             dispatcher.forward(request, response);

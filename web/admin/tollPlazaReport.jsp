@@ -8,8 +8,9 @@
 <!DOCTYPE html>
 <html>
     <head>
+         <link rel="shortcut icon" href="../images/Madurai_Corporation_logo.jpg">
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>JSP Page</title>
+        <title>Report</title>
         <link href="../css/default.css" rel="stylesheet" type="text/css" media="all" />
         <link href="../css/fonts.css" rel="stylesheet" type="text/css" media="all" />   
         <link href="../css/table.css" rel="stylesheet" type="text/css" media="all" />   
@@ -45,20 +46,15 @@
                     <br/>
                     <div id="print_content">
                         <center>
-
-                            <br/>
-                            <h5>
+                            <br/>                     
                                 <div class="CSSTableGenerator" style="width:700px;">
                                 <%out.print(request.getAttribute("tollPlazaReport"));%>
                             </div>
-                        </h5><br/><br/>
+                        <br/><br/>
                         <input type="button" value="Print Report" onclick="printPage('print_content');">
-
                     </center>
                 </div>       
             </div>
         </div>
     </body>
-
-
 </html>

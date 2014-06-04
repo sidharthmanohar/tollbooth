@@ -89,8 +89,8 @@
                                 <table border=1>
                                     <tr>
 
-                                        <th>To</th>
-                                        <th>Direction</th>                              
+                                        <th>From</th>
+                                        <th>To</th>                              
                                         <th>Fare</th>
                                     </tr>
                                     <%for (int i = 0; i < fareDetail.length; i++) {%>

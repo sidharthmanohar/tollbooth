@@ -61,24 +61,32 @@ public class TicketForm extends HttpServlet {
 
             HttpSession session = request.getSession(false);
             String userID = (String) session.getAttribute("userID");
-            String sql = "SELECT  toll_plaza_id FROM user_detail where user_id = '" + userID + "';";
+            String sql = "SELECT  toll_plaza_id,lane FROM user_detail where user_id = '" + userID + "';";
             rs = stmt.executeQuery(sql);
             rs.next();
             String tollPlazaID = rs.getString("toll_plaza_id");
+            int direction = rs.getInt("lane");
             rs.close();
 
+            if(direction == 1){
+                sql = "SELECT toll_plaza_Id,name FROM toll_plaza, location WHERE toll_plaza_Id >= "+tollPlazaID +" AND toll_plaza_Id = location_id-1";
+                
+            }else{
+                sql = "SELECT toll_plaza_Id,name FROM toll_plaza, location WHERE toll_plaza_Id <= "+tollPlazaID +" AND toll_plaza_Id = location_id";
+                
+            }
+           // ---------------------
             List<String> tollPlazaName = new ArrayList<String>();
             List<String> tollPlazaId = new ArrayList<String>();
-            sql = "SELECT * FROM toll_plaza;";
+           // sql = "SELECT * FROM toll_plaza;";
             rs = stmt.executeQuery(sql);
+            
             while (rs.next()) {
-
-                tollPlazaId.add(rs.getString("toll_plaza_Id"));
-                tollPlazaName.add(rs.getString("toll_plaza_name"));
-
+                tollPlazaId.add(rs.getString(1));
+                tollPlazaName.add(rs.getString(2));
             }
             rs.close();
-
+            //------------------
             List<String> vehicleTypeId = new ArrayList<String>();
             List<String> vehicleType = new ArrayList<String>();
             sql = "SELECT * FROM vehicle_type;";

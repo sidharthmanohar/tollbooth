@@ -61,8 +61,8 @@
                             <table border=1>
                                 <tr>
 
-                                    <th>To</th>
-                                    <th>Direction</th>   
+                                    <th>From</th>
+                                    <th>To</th>   
                                     <th>Effect From</th>
                                     <th>Fare</th>
 

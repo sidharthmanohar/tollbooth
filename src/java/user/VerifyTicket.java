@@ -82,9 +82,9 @@ public class VerifyTicket extends HttpServlet {
             rs = stmt.executeQuery(sql);
             rs.next();
             Timestamp regTime = rs.getTimestamp(1);
-            Timestamp now = new Timestamp(System.currentTimeMillis() - 600000);
+            Timestamp now = new Timestamp(System.currentTimeMillis() - 300000);
             if (regTime != null && regTime.after(now)) {
-                //user is validating same barcode within 10 min
+                //user is validating same barcode within 5 min
                 response.sendRedirect("validateResult.jsp?valid=true");
             } else {
                 sql = "SELECT from_toll_plaza_id,to_toll_plaza_id,registration_time,pass_type,validity FROM ticket WHERE barcode = '" + barcode + "';";
@@ -99,10 +99,10 @@ public class VerifyTicket extends HttpServlet {
                     Timestamp cur_date = new Timestamp(System.currentTimeMillis());
 
                     if (cur_date.before(date_exp)) {
-                        if (pass == 1) {
+                        if (pass == 1) {//single journey
                             String order = (src < dest) ? "MAX" : "MIN";
                             int lane = (src < dest) ? 1 : 2;
-                        //lane 1 is from 1 to 5
+                            //lane 1 is from 1 to 5
                             //lane 2 is from 5 to 1                    
                             sql = "SELECT " + order + "(toll_plaza_id) FROM vehicle_tracking WHERE barcode='" + barcode + "'";
                             rs = stmt.executeQuery(sql);
@@ -115,7 +115,7 @@ public class VerifyTicket extends HttpServlet {
                                         updateVehicleTracking(stmt, barcode, cur, boothNo);
                                         response.sendRedirect("validateResult.jsp?valid=true");
                                     } else {
-                                    //already passed this gate
+                                        //already passed this gate
                                         // System.out.println("already passes this gate");
                                         response.sendRedirect("validateResult.jsp?valid=false");
                                     }
@@ -124,7 +124,7 @@ public class VerifyTicket extends HttpServlet {
                                         updateVehicleTracking(stmt, barcode, cur, boothNo);
                                         response.sendRedirect("validateResult.jsp?valid=true");
                                     } else {
-                                    //already passes this gate
+                                        //already passes this gate
                                         //System.out.println("already passed this gate");
                                         response.sendRedirect("validateResult.jsp?valid=false");
                                     }
@@ -134,16 +134,48 @@ public class VerifyTicket extends HttpServlet {
                                 response.sendRedirect("validateResult.jsp?valid=false");
                             }
 
-                        } else if (pass == 2) {
+                        } else if (pass == 2) {//Round Trip
+
+                            if (cur >= src && cur <= dest || cur <= src && cur >= dest) {
+                                sql = "SELECT count(*) FROM vehicle_tracking WHERE barcode='" + barcode + "' AND toll_plaza_id=" + tollPlazaID;
+                                rs = stmt.executeQuery(sql);
+                                rs.next();
+                                int count = rs.getInt(1);
+                                if (count == 0) {
+                                    updateVehicleTracking(stmt, barcode, cur, boothNo);
+                                    response.sendRedirect("validateResult.jsp?valid=true");
+                                } else if (count == 1) {
+                                    sql = "SELECT booth_no FROM vehicle_tracking WHERE barcode='" + barcode + "' AND toll_plaza_id=" + tollPlazaID;
+                                    rs = stmt.executeQuery(sql);
+                                    rs.next();
+                                    int previousLane = rs.getInt(1);
+                                    if (previousLane != currentLane) {
+                                        updateVehicleTracking(stmt, barcode, cur, boothNo);
+                                        response.sendRedirect("validateResult.jsp?valid=true");
+                                    } else {
+                                        //  System.out.println("Vehicle is re-entering");
+                                        response.sendRedirect("validateResult.jsp?valid=false");
+                                    }
+                                } else {
+                                    // System.out.println("Vehicle is re-entering");
+                                    response.sendRedirect("validateResult.jsp?valid=false");
+                                }
+                                response.sendRedirect("validateResult.jsp?valid=true");
+                            } else {
+                                 //   System.out.println("Vehicle out of range");
+                                response.sendRedirect("validateResult.jsp?valid=false");
+                            }
+
+                        } else if (pass == 3) {//Multiple Entry
                             if (cur >= src && cur <= dest || cur <= src && cur >= dest) {
                                 updateVehicleTracking(stmt, barcode, cur, boothNo);
-                                 response.sendRedirect("validateResult.jsp?valid=true");
+                                response.sendRedirect("validateResult.jsp?valid=true");
                             } else {
                                 //   System.out.println("Vehicle out of range");
                                 response.sendRedirect("validateResult.jsp?valid=false");
                             }
 
-                        } else if (pass == 3) {
+                        } else if (pass == 4) {//Monthly pass
                             if (cur >= src && cur <= dest || cur <= src && cur >= dest) {
 
                                 Calendar expCal = Calendar.getInstance();
@@ -172,7 +204,7 @@ public class VerifyTicket extends HttpServlet {
                     }
 
                 } else {
-                //invalid barcode
+                    //invalid barcode
                     // System.out.println("Invalid barcode");
                     response.sendRedirect("validateResult.jsp?valid=false");
                 }

@@ -102,28 +102,7 @@
                                     &nbsp;
                                 </td>
                             </tr>
-                            <tr>
-                                <td>
-                                    Pass Type
-                                </td>
-                                <td>
-                                    &nbsp;:&nbsp;<select name="passTypeId">   
-                                        <%
-                                            Iterator<String> passTypeId = ((List<String>) request.getAttribute("passTypeId")).iterator();
-                                            Iterator<String> passType = ((List<String>) request.getAttribute("passType")).iterator();
-                                            while (passTypeId.hasNext() && passType.hasNext()) {
-                                        %> 
-
-                                        <option value="<%=passTypeId.next()%>"><%=passType.next()%></option>
-                                        <%}%> 
-                                    </select>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    &nbsp;
-                                </td>
-                            </tr>
+                         
                             <tr>
                                 <td>
                                     Date*
