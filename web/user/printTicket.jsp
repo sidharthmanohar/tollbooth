@@ -65,39 +65,38 @@
 
                         <div id="ticket">
                             <h4>MADURAI CORPORATION</h4>
-                              
+
                             <table>
                                 <tr>
                                     <td>Ticket No.  </td>
                                     <td>: &nbsp;<%= session.getAttribute("ticketNo")%> </td>           
                             </tr>   
-                                <tr>
-                                    <td>Toll Plaza  </td>
-                                    <td>: &nbsp;<%= session.getAttribute("fromDestination")%> </td>           
+                            <tr>
+                                <td>Toll Plaza  </td>
+                                <td>: &nbsp;<%= session.getAttribute("fromDestination")%> </td>           
                             </tr>   
-                          
-                            <tr>
-                                <td>Destination</td>
-                                <td>:&nbsp; <%= session.getAttribute("toDestination")%> </td>           
-                            </tr>
-                           
-                            <tr>
-                                <td>Date:</td>
-                                <td>: &nbsp;<%= session.getAttribute("date")%> </td>           
-                            </tr>
-                            <tr>
-                                <td>Time:</td>
-                                <td>: &nbsp;<%= session.getAttribute("time")%> </td>           
-                            </tr>
                             <tr>
                                 <td>Booth No.</td>
                                 <td>: &nbsp;<%= session.getAttribute("boothNo")%> </td>           
                             </tr>
                             <tr>
+                                <td>Destination</td>
+                                <td>:&nbsp; <%= session.getAttribute("toDestination")%> </td>           
+                            </tr>
+
+                            <tr>
+                                <td>Date</td>
+                                <td>: &nbsp;<%= session.getAttribute("date")%> </td>           
+                            </tr>
+                            <tr>
+                                <td>Validity</td>
+                                <td>: &nbsp;<%= session.getAttribute("validity")%> </td>           
+                            </tr>                           
+                            <tr>
                                 <td>Pass Type</td>
                                 <td>: &nbsp;<%= session.getAttribute("passType")%> </td>           
                             </tr>
-                           
+
                             <tr>
                                 <td>Fee</td>
                                 <td>: &nbsp;<%= session.getAttribute("fare")%> </td>           
@@ -106,7 +105,7 @@
                                 <td>Vehicle Type</td>
                                 <td>:&nbsp; <%= session.getAttribute("vehicleType")%> </td>           
                             </tr>
-                         
+
                             <tr>
                                 <td>Vehicle No</td>
                                 <td>: &nbsp;<%= session.getAttribute("vehicleNo")%> </td>           
@@ -116,7 +115,7 @@
                         <img src="../GenerateBarcodeServlet?barcodeNo=<%= session.getAttribute("barcodeNo")%>">
                     </div>
                     <br>
-                    
+
                     <form action="TicketForm">
                         <input type="button" value="Print Ticket" onClick="printme()">
                         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;

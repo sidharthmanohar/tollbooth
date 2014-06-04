@@ -82,7 +82,7 @@
                     var selects = document.getElementById("passType");
                     var selectedValue = selects.options[selects.selectedIndex].value;// will gives u 2
                     var validityDiv = document.getElementById("validity");
-                    if (selectedValue == 3) {
+                    if (selectedValue == 4) {
                         validityDiv.style.visibility = visibility = 'visible';
 
                     } else {

@@ -64,8 +64,9 @@ public class UpdateTariffForm extends HttpServlet {
 
             int tollPlazaId = Integer.parseInt(request.getParameter("tollPlazaId"));
             String vehicleTypeId = request.getParameter("vehicleTypeId");
-            String passTypeId = request.getParameter("passTypeId");
             String date = request.getParameter("date");
+            
+            String passTypeId = "1";
 
             String sql = "SELECT toll_plaza_name FROM toll_plaza WHERE toll_plaza_id = " + tollPlazaId;
             rs = stmt.executeQuery(sql);
@@ -86,19 +87,22 @@ public class UpdateTariffForm extends HttpServlet {
             sql = "SELECT count(*) FROM toll_plaza";
             rs = stmt.executeQuery(sql);
             rs.next();
-
             int plazaNo = rs.getInt(1);
 
             String values[][] = new String[plazaNo + 1][2];
 
+            sql = "SELECT name FROM location WHERE location_id = "+(tollPlazaId + 1);
+            rs = stmt.executeQuery(sql);
+            rs.next();
+            String fromLocation = rs.getString(1);
+            
             int i;
             for (i = 1; i <= tollPlazaId; i++) {
-                sql = "SELECT toll_plaza_name FROM toll_plaza WHERE toll_plaza_id = " + i;
-                rs = stmt.executeQuery(sql);
+                values[i - 1][0] = fromLocation;
+                sql = "SELECT name FROM location WHERE location_id = " + i;
+                 rs = stmt.executeQuery(sql);
                 rs.next();
-                values[i - 1][0] = rs.getString(1);
-
-                values[i - 1][1] = "DOWN";
+                values[i - 1][1] = rs.getString(1);
 
             }
             //for(int j = 0; j < values.length; j++){
@@ -106,12 +110,16 @@ public class UpdateTariffForm extends HttpServlet {
             //}
 
             i--;
+             sql = "SELECT name FROM location WHERE location_id = "+tollPlazaId;
+            rs = stmt.executeQuery(sql);
+            rs.next();
+            fromLocation = rs.getString(1);
             for (; i <= plazaNo; i++) {
-                sql = "SELECT toll_plaza_name FROM toll_plaza WHERE toll_plaza_id = " + i;
+               values[i][0] = fromLocation;
+                sql = "SELECT name FROM location WHERE location_id = " + (i+1);
                 rs = stmt.executeQuery(sql);
                 rs.next();
-                values[i][0] = rs.getString(1);
-                values[i][1] = "UP";
+                values[i][1] = rs.getString(1);
             }
             //for(int j = 0; j < values.length; j++){
             //             System.out.println(values[j][0] +"\t"+values[j][1] +"\t"+values[j][2]);

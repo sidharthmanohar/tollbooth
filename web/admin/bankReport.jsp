@@ -9,8 +9,9 @@
 <%@page import="java.util.List"%>
 <html>
     <head>
+         <link rel="shortcut icon" href="../images/Madurai_Corporation_logo.jpg">
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>JSP Page</title>
+        <title>Report</title>
         <link href="../css/default.css" rel="stylesheet" type="text/css" media="all" />
         <link href="../css/fonts.css" rel="stylesheet" type="text/css" media="all" /> 
         <link href="../css/jquery.datetimepicker.css" rel="stylesheet" type="text/css" />
