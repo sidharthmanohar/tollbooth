@@ -242,6 +242,7 @@ public class ProcessTicketForm extends HttpServlet {
                 calValidity.set(Calendar.HOUR_OF_DAY, 23);
                 calValidity.set(Calendar.MINUTE, 59);
                 calValidity.set(Calendar.SECOND, 59);
+                calValidity.set(Calendar.MILLISECOND, 0);//FAILING TO SET MILLISECOND LEAD TO INCONSISTENCY!!
                 validity = new Timestamp(calValidity.getTimeInMillis());
                 
                 Calendar cValidity = Calendar.getInstance();

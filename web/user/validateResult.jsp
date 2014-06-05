@@ -21,24 +21,65 @@
         <jsp:include page="menu.jsp?menu=validate"></jsp:include>
         </head>
         <body>
+
             <div id="wrapper">
+
+
                 <div id="page" class="pagebody-centre">
-                <% if (request.getParameter("valid") != null) {
-                        if (request.getParameter("valid").equals("true")) {
-                %>
-                <h3>The ticket is valid</h3>
-                <% } else { %>
-                <h3 style="color:#E60000"> The ticket is NOT valid</h3>
-                <%
-                    }
-                } else {
-                %>
-                <h3 style="color:#E60000"> Please Retry</h3>
-                    <% }%>
-                    <br>
-                    <br>
-                    <a href="verifyBarcode.jsp"><button>Back</button></a>
-                    
+                    <center>
+                        <h3>Verification Details</h3>
+                        <br><br>
+                        <table>
+                            <tr>
+                                <td>
+                                    Ticket Number
+                                </td>
+                                <td>
+                                    :<%= session.getAttribute("vTicketNo")%>
+                            </td>                   
+                        </tr>
+                        <tr>
+                            <td>
+                                &nbsp;
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                Vehicle Number
+                            </td>
+                            <td>
+                                :<%= session.getAttribute("vVehicleNo")%>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                &nbsp;
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <p>Status</p>
+
+                            </td>
+                            <td>
+                                <% if (request.getParameter("valid") != null) {
+                                        if (request.getParameter("valid").equals("true")) {
+                                %>
+                                <p style="color:#01A9DB">:VALID</p>
+                                <% } else { %>
+                                <p style="color:#E60000">:NOT VALID</p>
+                                <%
+                                    }
+                                } else {
+                                %>
+                                <p style="color:#E60000">:Please try again</p>
+                                <% }%>
+                            </td>
+                        </tr>
+                    </table>
+                </center>
+                <a href="verifyBarcode.jsp"><button>Back</button></a>
+
             </div>
         </div>
 </html>
