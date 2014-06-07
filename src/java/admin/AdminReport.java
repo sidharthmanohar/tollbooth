@@ -69,7 +69,13 @@ public class AdminReport extends HttpServlet {
             Date date= new Date();
             String today=dateFormat.format(date);
             
-            String query="select p.toll_plaza_name,pt.pass_type,t.vehicle_no,v.vehicle_type,t.fare_collected from ticket t,toll_plaza p,pass_type pt,vehicle_type v where v.vehicle_type_id=t.vehicle_type_id and pt.pass_id=t.pass_type and p.toll_plaza_id=t.to_toll_plaza_id and Date(t.registration_time)='"+today+"' and t.from_toll_plaza_id='"+tollid+"'";
+            String query = "SELECT toll_plaza_name FROM toll_plaza WHERE toll_plaza_id = "+ tollid;
+            rs = stmt.executeQuery(query);
+            rs.next();
+            request.setAttribute("tollPlaza", rs.getString(1));
+            request.setAttribute("date", new SimpleDateFormat("dd-MM-yyyy").format(date));
+            
+            query="select p.toll_plaza_name,pt.pass_type,t.vehicle_no,v.vehicle_type,t.fare_collected from ticket t,toll_plaza p,pass_type pt,vehicle_type v where v.vehicle_type_id=t.vehicle_type_id and pt.pass_id=t.pass_type and p.toll_plaza_id=t.to_toll_plaza_id and Date(t.registration_time)='"+today+"' and t.from_toll_plaza_id='"+tollid+"'";
             /* TODO output your page herselect * from ticket where Date(registration_time)='"+today+"'"e. You may use following sample code. */
             String table="<table border=1><tr><th>Destination</th><th>Pass Type</th><th>Registration No</th><th>Vechile Type</th><th>Fare</th></tr>";
             rs=stmt.executeQuery(query);
@@ -82,6 +88,7 @@ public class AdminReport extends HttpServlet {
             }
             table=table+"<tr><td colspan=4>Total</td><td>"+total+"</td></tr></table>";
             request.setAttribute("dailyreport", table);
+            
             RequestDispatcher dispatcher = servletContext.getRequestDispatcher("/admin/dailyReport.jsp");
             dispatcher.forward(request, response);
         }
@@ -89,6 +96,7 @@ public class AdminReport extends HttpServlet {
         catch(Exception e)
         {
              Logger.getLogger(AdminReport.class.getName()).log(Level.SEVERE, null, e);
+             response.sendRedirect("error.jsp");
         }
         finally {
            try {

@@ -37,23 +37,47 @@
 
             <div id="wrapper">
                 <div id="page" class="pagebody-centre"> 
+                <br/>
+                <div id="print_content">
                     <center>
-                        <h3>Report
-                        </h3>
-                    </center>
-                    <br/>
-                    <br/>
-                    <br/>
-                    <div id="print_content">
-                        <center>
-                            <br/>                     
-                                <div class="CSSTableGenerator" style="width:700px;">
-                                <%out.print(request.getAttribute("tollPlazaReport"));%>
-                            </div>
+
+                        <h3>Specific Report for <%=request.getAttribute("tollPlaza")%></h3>
+                        <br>
+                        <br>
+                        
+                        <table>
+                            <tr>
+                                
+                                <td>
+                                From
+                            </td>
+                            <td>
+                                :<%=request.getAttribute("fromDate")%>
+                            </td>
+                            </tr>
+                            <tr>
+                                <td>&nbsp;</td>
+                            <tr>
+                                
+                                <td>
+                                To
+                            </td>
+                            <td>
+                                :<%=request.getAttribute("toDate")%>
+                            </td>
+                            </tr>
+                        </table>  
+
+                        <br/>
+
+                        <div class="CSSTableGenerator" style="width:700px;">
+                            <%out.print(request.getAttribute("tollPlazaReport"));%>
+                        </div>
                         <br/><br/>
-                        <input type="button" value="Print Report" onclick="printPage('print_content');">
+
                     </center>
-                </div>       
+                </div>   
+                <input type="button" value="Print" onclick="printPage('print_content');">
             </div>
         </div>
     </body>

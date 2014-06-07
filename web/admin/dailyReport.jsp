@@ -37,26 +37,26 @@
 
             <div id="wrapper">
                 <div id="page" class="pagebody-centre"> 
+                <br/>
+                <div id="print_content">
                     <center>
-                        <h3>Daily Report
-                        </h3>
-                    </center>
-                    <br/>
-                    <br/>
-                    <br/>
-                    <div id="print_content">
-                        <center>
 
-                            <br/>
-       
-                                <div class="CSSTableGenerator" style="width:700px;">
-                                <%out.print(request.getAttribute("dailyreport"));%>
-                            </div>
-              <br/><br/>
-                        <input type="button" value="Print Ticket" onclick="printPage('print_content');">
+                        <h3>Daily Report for <%=request.getAttribute("tollPlaza")%>
+                        <br>
+                        <br>
+                        Date&nbsp;:&nbsp;<%=request.getAttribute("date")%>
+                    </h3>
+
+                        <br/>
+
+                        <div class="CSSTableGenerator" style="width:700px;">
+                            <%out.print(request.getAttribute("dailyreport"));%>
+                        </div>
+                        <br/><br/>
 
                     </center>
-                </div>       
+                </div>   
+                <input type="button" value="Print" onclick="printPage('print_content');">
             </div>
         </div>
     </body>
