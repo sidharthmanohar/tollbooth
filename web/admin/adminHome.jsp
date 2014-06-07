@@ -42,9 +42,9 @@
                        
                         <br/>
                         <form action="GetReport" method="post">
-                            <h5>select toll plaza:&nbsp;&nbsp;<select name="tollid">
+                            select toll plaza:&nbsp;&nbsp;<select name="tollid">
                                     <%out.print(request.getAttribute("toll_list"));%>
-                                </select></h5><br/><br/>
+                                </select><br/><br/>
 
                             <input type="submit" value="submit"/>
                         </form>
