@@ -84,7 +84,7 @@ public class VerifyTicket extends HttpServlet {
             rs = stmt.executeQuery(sql);
             rs.next();
             Timestamp regTime = rs.getTimestamp(1);
-            Timestamp now = new Timestamp(System.currentTimeMillis() - 0);//300000
+            Timestamp now = new Timestamp(System.currentTimeMillis() - 300000);
             if (regTime != null && regTime.after(now)) {
                 //user is validating same barcode within 5 min
                 response.sendRedirect("validateResult.jsp?valid=true");
