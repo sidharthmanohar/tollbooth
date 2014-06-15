@@ -99,6 +99,7 @@ public class GenerateBankReport extends HttpServlet {
 
             } catch (SQLException ex) {
                 Logger.getLogger(GenerateBankReport.class.getName()).log(Level.SEVERE, null, ex);
+                response.sendRedirect("error.jsp");
             }
             try {
                 if (conn != null) {
@@ -106,6 +107,7 @@ public class GenerateBankReport extends HttpServlet {
                 }
             } catch (SQLException ex) {
                 Logger.getLogger(GenerateBankReport.class.getName()).log(Level.SEVERE, null, ex);
+                response.sendRedirect("error.jsp");
             }
         }
     }

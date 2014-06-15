@@ -43,87 +43,84 @@ public class TariffMain extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+
+        response.setContentType("text/html;charset=UTF-8");
+
+        //load properties file
+        ServletContext servletContext = request.getServletContext();
+        String propertiesFilePath = servletContext.getRealPath("WEB-INF/tollbooth.properties");
+        Properties properties = new Properties();
+        properties.load(new FileInputStream(new File(propertiesFilePath)));
+
+        Connection conn = null;
+        Statement stmt = null;
+        ResultSet rs = null;
+
         try {
-            response.setContentType("text/html;charset=UTF-8");
 
-            //load properties file
-            ServletContext servletContext = request.getServletContext();
-            String propertiesFilePath = servletContext.getRealPath("WEB-INF/tollbooth.properties");
-            Properties properties = new Properties();
-            properties.load(new FileInputStream(new File(propertiesFilePath)));
+            Class.forName(properties.getProperty("sqldriver"));
+            conn = DriverManager.getConnection(
+                    properties.getProperty("sqlurl"),
+                    properties.getProperty("sqluser"),
+                    properties.getProperty("sqlpassword"));
+            stmt = conn.createStatement();
 
-            Connection conn = null;
-            Statement stmt = null;
-            ResultSet rs = null;
+            List<String> tollPlazaName = new ArrayList<String>();
+            List<String> tollPlazaId = new ArrayList<String>();
+            String sql = "SELECT * FROM toll_plaza;";
+            rs = stmt.executeQuery(sql);
+            while (rs.next()) {
+                tollPlazaId.add(rs.getString("toll_plaza_Id"));
+                tollPlazaName.add(rs.getString("toll_plaza_name"));
+            }
+            rs.close();
 
+            List<String> vehicleTypeId = new ArrayList<String>();
+            List<String> vehicleType = new ArrayList<String>();
+            sql = "SELECT * FROM vehicle_type;";
+            rs = stmt.executeQuery(sql);
+            while (rs.next()) {
+                vehicleTypeId.add(rs.getString("vehicle_type_id"));
+                vehicleType.add(rs.getString("vehicle_type"));
+            }
+            rs.close();
+
+            request.setAttribute("tollPlazaId", tollPlazaId);
+            request.setAttribute("tollPlazaName", tollPlazaName);
+            request.setAttribute("vehicleTypeId", vehicleTypeId);
+            request.setAttribute("vehicleType", vehicleType);
+
+            RequestDispatcher dispatcher = servletContext.getRequestDispatcher("/admin/tariffMain.jsp");
+            dispatcher.forward(request, response);
+
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(TariffMain.class.getName()).log(Level.SEVERE, null, ex);
+            response.sendRedirect("error.jsp");
+        } catch (SQLException ex) {
+            Logger.getLogger(TariffMain.class.getName()).log(Level.SEVERE, null, ex);
+            response.sendRedirect("error.jsp");
+        } catch (ServletException ex) {
+            Logger.getLogger(TariffMain.class.getName()).log(Level.SEVERE, null, ex);
+            response.sendRedirect("error.jsp");
+        } finally {
             try {
-
-                Class.forName(properties.getProperty("sqldriver"));
-                conn = DriverManager.getConnection(
-                        properties.getProperty("sqlurl"),
-                        properties.getProperty("sqluser"),
-                        properties.getProperty("sqlpassword"));
-                stmt = conn.createStatement();
-
-                List<String> tollPlazaName = new ArrayList<String>();
-                List<String> tollPlazaId = new ArrayList<String>();
-                String sql = "SELECT * FROM toll_plaza;";
-                rs = stmt.executeQuery(sql);
-                while (rs.next()) {
-                    tollPlazaId.add(rs.getString("toll_plaza_Id"));
-                    tollPlazaName.add(rs.getString("toll_plaza_name"));
+                if (stmt != null) {
+                    stmt.close();
                 }
-                rs.close();
 
-                 
-                List<String> vehicleTypeId = new ArrayList<String>();
-                List<String> vehicleType = new ArrayList<String>();
-                sql = "SELECT * FROM vehicle_type;";
-                rs = stmt.executeQuery(sql);
-                while (rs.next()) {
-                    vehicleTypeId.add(rs.getString("vehicle_type_id"));
-                    vehicleType.add(rs.getString("vehicle_type"));
-                }
-                rs.close();              
-                
-                request.setAttribute("tollPlazaId", tollPlazaId);
-                request.setAttribute("tollPlazaName", tollPlazaName);
-                request.setAttribute("vehicleTypeId", vehicleTypeId);
-                request.setAttribute("vehicleType", vehicleType);
- 
-       
-                RequestDispatcher dispatcher = servletContext.getRequestDispatcher("/admin/tariffMain.jsp");
-                dispatcher.forward(request, response);
-
-            } catch (ClassNotFoundException ex) {
-                Logger.getLogger(TariffMain.class.getName()).log(Level.SEVERE, null, ex);
             } catch (SQLException ex) {
                 Logger.getLogger(TariffMain.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (ServletException ex) {
-                Logger.getLogger(TariffForm.class.getName()).log(Level.SEVERE, null, ex);
-            } finally {
-                try {
-                    if (stmt != null) {
-                        stmt.close();
-                    }
-
-                } catch (SQLException ex) {
-                    Logger.getLogger(TariffMain.class.getName()).log(Level.SEVERE, null, ex);
+                response.sendRedirect("error.jsp");
+            }
+            try {
+                if (conn != null) {
+                    conn.close();
                 }
-                try {
-                    if (conn != null) {
-                        conn.close();
-                    }
-                } catch (SQLException ex) {
-                    Logger.getLogger(TariffMain.class.getName()).log(Level.SEVERE, null, ex);
-                }
-
+            } catch (SQLException ex) {
+                Logger.getLogger(TariffMain.class.getName()).log(Level.SEVERE, null, ex);
+                response.sendRedirect("error.jsp");
             }
 
-        } catch (FileNotFoundException ex) {
-            Logger.getLogger(TariffForm.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (IOException ex) {
-            Logger.getLogger(TariffForm.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 

@@ -65,17 +65,18 @@ public class AdminReport extends HttpServlet {
                     properties.getProperty("sqluser"),
                     properties.getProperty("sqlpassword"));
             stmt = conn.createStatement();
-            DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-            Date date= new Date();
-            String today=dateFormat.format(date);
+            //DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+            //Date date= new Date();
+            //String today = dateFormat.format(date);
             
+            String date = request.getParameter("date");
             String query = "SELECT toll_plaza_name FROM toll_plaza WHERE toll_plaza_id = "+ tollid;
             rs = stmt.executeQuery(query);
             rs.next();
             request.setAttribute("tollPlaza", rs.getString(1));
-            request.setAttribute("date", new SimpleDateFormat("dd-MM-yyyy").format(date));
+            request.setAttribute("date", new SimpleDateFormat("dd-MM-yyyy").format(new SimpleDateFormat("yyyy-MM-dd").parse(date)));
             
-            query="select l.name,pt.pass_type,t.vehicle_no,v.vehicle_type,t.fare_collected,t.ticket_no from ticket t,toll_plaza p,pass_type pt,vehicle_type v,location l where v.vehicle_type_id=t.vehicle_type_id and pt.pass_id=t.pass_type and p.toll_plaza_id=t.to_toll_plaza_id and Date(t.registration_time)='"+today+"' and t.from_toll_plaza_id='"+tollid+"' AND t.to_location_id = l.location_id";
+            query="select l.name,pt.pass_type,t.vehicle_no,v.vehicle_type,t.fare_collected,t.ticket_no from ticket t,toll_plaza p,pass_type pt,vehicle_type v,location l where v.vehicle_type_id=t.vehicle_type_id and pt.pass_id=t.pass_type and p.toll_plaza_id=t.to_toll_plaza_id and Date(t.registration_time)='"+date+"' and t.from_toll_plaza_id='"+tollid+"' AND t.to_location_id = l.location_id";
             /* TODO output your page herselect * from ticket where Date(registration_time)='"+today+"'"e. You may use following sample code. */
             String table="<table border=1><tr><th>Ticket No</th><th>Destination</th><th>Pass Type</th><th>Registration No</th><th>Vechile Type</th><th>Fare</th></tr>";
             rs=stmt.executeQuery(query);
@@ -106,6 +107,7 @@ public class AdminReport extends HttpServlet {
 
             } catch (SQLException ex) {
                 Logger.getLogger(AdminReport.class.getName()).log(Level.SEVERE, null, ex);
+                response.sendRedirect("error.jsp");
             }
             try {
                 if (conn != null) {
@@ -113,6 +115,7 @@ public class AdminReport extends HttpServlet {
                 }
             } catch (SQLException ex) {
                 Logger.getLogger(AdminReport.class.getName()).log(Level.SEVERE, null, ex);
+                response.sendRedirect("error.jsp");
             }
         }
     }

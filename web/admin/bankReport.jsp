@@ -22,7 +22,7 @@
         <body>
             <div id="wrapper">
                 <div id="page" class="pagebody-centre">
-                    <h3>Bank Report</h3>
+                    <h3>Brief Report</h3>
                     <br><br>
                     <div class="page-form">
                         <form action="GenerateBankReport" method="post">
@@ -53,9 +53,5 @@
         $('#datetimepicker2').datetimepicker()
                 .datetimepicker({value: '<%=request.getAttribute("date")%>', step: 10});
     </script>
-
-
-
-
 </html>
 

@@ -17,38 +17,91 @@
         <jsp:include page="adminHeader.jsp"></jsp:include>
         <jsp:include page="adminMenu.jsp?menu=report"></jsp:include>
             <script>
-                function printPage(id)
+                function makepage(divToPrint)
                 {
-                    var html = "<html>";
-                    html += document.getElementById(id).innerHTML;
-                    html += "</html>";
+                    // We break the closing script tag in half to prevent
+                    // the HTML parser from seeing it as a part of
+                    // the *main* page.
 
-                    var printWin = window.open('', '', 'left=0,top=0,width=1,height=1,toolbar=0,scrollbars=0,status  =0');
-                    printWin.document.write(html);
-                    printWin.document.close();
-                    printWin.focus();
-                    printWin.print();
-                    printWin.close();
+                    return "<html>\n" +
+                            "<head>\n" +
+                           "<script>\n" +
+                            "function step1() {\n" +
+                            "  setTimeout('step2()', 10);\n" +
+                            "}\n" +
+                            "function step2() {\n" +
+                            "  window.print();\n" +
+                            "  window.close();\n" +
+                            "}\n" +
+                            "</scr" + "ipt>\n" +
+                            "</head>\n" +
+                            "<body onLoad='step1()'>\n" +
+                            divToPrint +
+                            "</body>\n" +
+                            "</html>\n";
                 }
-            </script>    
+
+                function printme()
+                {
+                    link = "about:blank";
+                    var pw = window.open(link, "_new");
+                    var divToPrint = document.getElementById("print_content").innerHTML;
+                    pw.document.open();
+                    pw.document.write(makepage(divToPrint));
+                    pw.document.close();
+                }
+            </script>   
         </head>
 
         <body>
 
             <div id="wrapper">
                 <div id="page" class="pagebody-centre"> 
-                <br/>
-                <div id="print_content">
-                    
-                    <center>
-                        <h3>Daily Report for <%=request.getAttribute("tollPlaza")%>
-                        <br>
-                        <br>
-                        Date&nbsp;:&nbsp;<%=request.getAttribute("date")%>
-                    </h3>
+                    <br/>
+                    <div id="print_content">
 
-                        <br/>
+                        <center>
+                            <table width="600">
+                                <tr >
+                                    <td>
+                                        <img src="../images/Madurai_Corporation_logo_BW.jpg" alt="" width="90" height="90" style="float: left">
+                                    </td>
+                                    <td>
+                                        <h3>MADURAI CORPORATION</h3>
+                                        <h4>TOLL COLLECTION REPORT</h4>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td colspan="2"> <hr>
+                                    </td>
+                                </tr>
+                            </table>
 
+                            <table>
+                            <tr>
+                                <td>
+                                    Toll Gate
+                                </td>
+                                <td>
+                                     :<%=request.getAttribute("tollPlaza")%>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>&nbsp;</td>
+                            </tr>
+                           
+                            <tr>
+                                
+                                <td>
+                                Date
+                            </td>
+                            <td>
+                                :<%=request.getAttribute("date")%>
+                            </td>
+                            </tr>
+                        </table>  
+                            
+                            <br>
                         <div class="CSSTableGenerator" style="width:700px;">
                             <%out.print(request.getAttribute("dailyreport"));%>
                         </div>
@@ -56,7 +109,7 @@
 
                     </center>
                 </div>   
-                <input type="button" value="Print" onclick="printPage('print_content');">
+                <input type="button" value="Print" onClick="printme()">
             </div>
         </div>
     </body>
