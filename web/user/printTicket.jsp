@@ -59,16 +59,25 @@
             <jsp:include page="userHeader.jsp"></jsp:include>
             <jsp:include page="menu.jsp?menu=issueticket"></jsp:include>
 
-                <div id="page" class="pagebody-centre">
-                    <br><br>
+                <div id="page" class="pagebody-centre">            
                     <div class="page-form">
-
                         <div id="ticket">
-                            <h4>MADURAI CORPORATION</h4>
-
                             <table>
+                                <tr style="border-bottom-color:  black">
+                                    <td colspan="2">
+                                <center>
+                                    <h4>MADURAI  CORPORATION  
+                                        <img src="../images/Madurai_Corporation_logo_BW.jpg" alt="" width="50" height="50" style="float: left">
+                                        <br>TOLL COLLECTION</h4>
+                                    <hr/>
+                                </center>                               
+                                </td> 
+
+                                </tr>
+                               
+                          
                                 <tr>
-                                    <td>Ticket No.  </td>
+                                    <td>Ticket No.</td>
                                     <td>: &nbsp;<%= session.getAttribute("ticketNo")%> </td>           
                             </tr>   
                             <tr>
@@ -110,9 +119,23 @@
                                 <td>Vehicle No</td>
                                 <td>: &nbsp;<%= session.getAttribute("vehicleNo")%> </td>           
                             </tr>                           
-                        </table>              
-                        <br>
-                        <img src="../GenerateBarcodeServlet?barcodeNo=<%= session.getAttribute("barcodeNo")%>">
+
+                            <tr>
+                                <td colspan="2">
+                                    <img src="../GenerateBarcodeServlet?barcodeNo=<%= session.getAttribute("barcodeNo")%>"  width="275" height="55">
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="2">
+                            <center>
+                                Happy Journey!!
+
+                            </center>
+                            </td>
+                            </tr>
+                        </table>                                 
+
+
                     </div>
                     <br>
 

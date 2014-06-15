@@ -5,9 +5,9 @@
 --%>
 <%
     HttpSession currentSession = request.getSession(false);
-    if (currentSession.getAttribute("userType") == null) {   
+    if (currentSession.getAttribute("userType") == null) {
 %>
-     
+
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -15,7 +15,7 @@
         <link rel="shortcut icon" href="images/Madurai_Corporation_logo.jpg">
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Tollbooth</title>       
-        <link href="css/login.css" rel="stylesheet" >        
+        <link href="css/login.css" rel="stylesheet" >
         <link href="css/default.css" rel="stylesheet" type="text/css" media="all" />
         <link href="css/fonts.css" rel="stylesheet" type="text/css" media="all" />
     </head>
@@ -33,6 +33,7 @@
             </div>
             <div id="page" class="container">
                 <section class="container">
+
                     <div class="login">
                         <h1>Login</h1>
                         <form method="post" action="CheckLoginServlet">
@@ -43,7 +44,9 @@
                             <%}%>
                             <p class="submit"><input type="submit" name="commit" value="Login"></p>
                         </form>
-                    </div>    
+                    </div>   
+
+
                 </section>
             </div>
         </div>
@@ -51,6 +54,6 @@
 </html>
 
 <%
-}else{
-   response.sendRedirect("RedirectUser");
-}%>
+    } else {
+        response.sendRedirect("RedirectUser");
+    }%>
