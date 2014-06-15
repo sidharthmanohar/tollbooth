@@ -196,6 +196,7 @@ public class ViewTariff extends HttpServlet {
 
             } catch (SQLException ex) {
                 Logger.getLogger(ViewTariff.class.getName()).log(Level.SEVERE, null, ex);
+                response.sendRedirect("error.jsp");
             }
             try {
                 if (conn != null) {
@@ -203,6 +204,7 @@ public class ViewTariff extends HttpServlet {
                 }
             } catch (SQLException ex) {
                 Logger.getLogger(ViewTariff.class.getName()).log(Level.SEVERE, null, ex);
+                response.sendRedirect("error.jsp");
             }
 
         }

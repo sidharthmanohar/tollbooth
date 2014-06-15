@@ -67,16 +67,16 @@ public class GenerateReportForm extends HttpServlet {
             request.setAttribute("fromDate", new SimpleDateFormat("dd-MM-yyyy HH:ss").format(new SimpleDateFormat("yyyy/MM/dd HH:ss").parse(fromDate)));
             request.setAttribute("toDate", new SimpleDateFormat("dd-MM-yyyy HH:ss").format(new SimpleDateFormat("yyyy/MM/dd HH:ss").parse(toDate)));
 
-            query = "select p.toll_plaza_name,pt.pass_type,t.vehicle_no,v.vehicle_type,t.fare_collected from ticket t,toll_plaza p,pass_type pt,vehicle_type v where v.vehicle_type_id=t.vehicle_type_id and pt.pass_id=t.pass_type and p.toll_plaza_id=t.to_toll_plaza_id and date(t.registration_time) BETWEEN '" + fromDate + "' AND '" + toDate + "' and t.from_toll_plaza_id='" + tollid + "'";
-            String table = "<table border=1><tr><th>Destination</th><th>Pass Type</th><th>Registration No</th><th>Vechile Type</th><th>Fare</th></tr>";
+            query = "select l.name,pt.pass_type,t.vehicle_no,v.vehicle_type,t.fare_collected,t.ticket_no from ticket t,toll_plaza p,pass_type pt,vehicle_type v, location l where v.vehicle_type_id=t.vehicle_type_id and pt.pass_id=t.pass_type and p.toll_plaza_id=t.to_toll_plaza_id and date(t.registration_time) BETWEEN '" + fromDate + "' AND '" + toDate + "' and t.from_toll_plaza_id='" + tollid +"' AND t.to_location_id = l.location_id";
+            String table = "<table border=1><tr><th>Ticket No</th><th>Destination</th><th>Pass Type</th><th>Registration No</th><th>Vechile Type</th><th>Fare</th></tr>";
             rs = stmt.executeQuery(query);
             int total = 0;
             //out.print(today);
             while (rs.next()) {
-                table = table + "<tr><td>" + rs.getString(1) + "</td><td>" + rs.getString(2) + "</td><td>" + rs.getString(3) + "</td><td>" + rs.getString(4) + "</td><td>" + rs.getInt(5) + "</td></tr>";
+                table = table + "<tr><td>" + rs.getString(6) + "</td>"+"<td>" + rs.getString(1) + "</td><td>" + rs.getString(2) + "</td><td>" + rs.getString(3) + "</td><td>" + rs.getString(4) + "</td><td>" + rs.getInt(5) + "</td></tr>";
                 total = total + rs.getInt(5);
             }
-            table = table + "<tr><td colspan=4>Total</td><td>" + total + "</td></tr></table>";
+            table = table + "<tr><td colspan=5>Total</td><td>" + total + "</td></tr></table>";
             request.setAttribute("tollPlazaReport", table);
             RequestDispatcher dispatcher = servletContext.getRequestDispatcher("/admin/tollPlazaReport.jsp");
             dispatcher.forward(request, response);
@@ -98,6 +98,7 @@ public class GenerateReportForm extends HttpServlet {
 
             } catch (SQLException ex) {
                 Logger.getLogger(GenerateReportForm.class.getName()).log(Level.SEVERE, null, ex);
+                response.sendRedirect("error.jsp");
             }
             try {
                 if (conn != null) {
@@ -105,6 +106,7 @@ public class GenerateReportForm extends HttpServlet {
                 }
             } catch (SQLException ex) {
                 Logger.getLogger(GenerateReportForm.class.getName()).log(Level.SEVERE, null, ex);
+                response.sendRedirect("error.jsp");
             }
         }
     }

@@ -8,7 +8,6 @@ package admin;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
@@ -43,7 +42,8 @@ public class ChangePassword extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         String userID = request.getParameter("changePasswordUserID");
-        String password = request.getParameter("newPassword");
+        String oldPassword = request.getParameter("oldPassword");
+        String newPassword = request.getParameter("newPassword");
 
         ServletContext servletContext = request.getServletContext();
         String propertiesFilePath = servletContext.getRealPath("WEB-INF/tollbooth.properties");
@@ -53,6 +53,10 @@ public class ChangePassword extends HttpServlet {
         Connection conn = null;
         Statement stmt = null;
         ResultSet rs;
+        ResultSet rs1;
+
+        HttpSession session = request.getSession(false);
+        session.setAttribute("msg", "Please try again");
 
         try {
 
@@ -64,25 +68,30 @@ public class ChangePassword extends HttpServlet {
 
             stmt = conn.createStatement();
 
-            HttpSession session = request.getSession(false);
-            session.setAttribute("msg", null);
-
-            String sql = "SELECT user_type FROM user_detail WHERE user_id='" + userID + "'";
+            String sql = "SELECT user_type,password FROM user_detail WHERE user_id='" + userID + "'";
             rs = stmt.executeQuery(sql);
             if (rs.next()) {
+
                 int userType = rs.getInt("user_type");
                 if (userType == 2 || userID.equals(session.getAttribute("userID"))) {
 
-                    sql = "UPDATE user_detail SET password='"+ password+"' WHERE user_id='"+userID+"'";
-                    stmt.executeUpdate(sql);
-                    session.setAttribute("msg", "Password succesfully changed for "+ userID);
-                    response.sendRedirect("userManagementResult.jsp");
-                    
+                    if (rs.getString("password").equals(oldPassword)) {
+                        sql = "UPDATE user_detail SET password='" + newPassword + "' WHERE user_id='" + userID + "'";
+                        stmt.executeUpdate(sql);
+                        session.setAttribute("msg", "Password succesfully changed for " + userID);
+                        response.sendRedirect("userManagementResult.jsp");
+                    } else {
+                        //incorrect old password
+                        session.setAttribute("msg", "Incorrect old password");
+                        response.sendRedirect("userManagementResult.jsp");
+                    }
+
                 } else {
                     //no permission for changing password
-                    session.setAttribute("msg", "Sorry. You are not authorized to change password for "+ userID+".");
+                    session.setAttribute("msg", "Sorry. You are not authorized to change password for " + userID + ".");
                     response.sendRedirect("userManagementResult.jsp");
                 }
+
             } else {
                 //no such userID
                 session.setAttribute("msg", "No user named " + userID + " was found");
@@ -90,10 +99,12 @@ public class ChangePassword extends HttpServlet {
             }
 
         } catch (ClassNotFoundException ex) {
-            //handle error!!!
+
             Logger.getLogger(ChangePassword.class.getName()).log(Level.SEVERE, null, ex);
+            response.sendRedirect("error.jsp");
         } catch (SQLException ex) {
             response.sendRedirect("tariffResult.jsp");
+            response.sendRedirect("userManagementResult.jsp");
         } finally {
             try {
                 if (stmt != null) {

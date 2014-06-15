@@ -38,18 +38,18 @@ public class GenerateBarcodeServlet extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("jpeg/image");
-        //HttpSession session = request.getSession();
         String barcodeNo = request.getParameter("barcodeNo");
         try {
             Barcode barCode = BarcodeFactory.createCode128(barcodeNo);
             //remove label
+           
             barCode.setLabel(" ");
- 
-            // barCode.setBarWidth(1);
             //The following code removes the underlining of label in barcode
             //a bug  in barbecue package!!!
             ByteArrayOutputStream baos = new ByteArrayOutputStream();
+            
             BarcodeImageHandler.writePNG(barCode, baos);
+           
             File bcImg = File.createTempFile("bc-", ".png");
             bcImg.deleteOnExit();
             

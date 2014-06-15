@@ -23,12 +23,23 @@
         <jsp:include page="adminMenu.jsp?menu=UserManagement"></jsp:include>           
 
             <script>
-                
+
 
                 function validateNewPassword()
                 {
+
                     var count = 0;
                     var txtBox = "changePasswordUserID";
+                    var input = document.getElementById(txtBox);
+                    var value = input.value.replace(/\s/g, "");
+                    if (value == "")
+                    {
+                        input.style.border = "2px solid red";
+                        count = count + 1;
+                    } else {
+                        input.style.border = "2px solid black";
+                    }
+                    txtBox = "oldPassword";
                     var input = document.getElementById(txtBox);
                     var value = input.value.replace(/\s/g, "");
                     if (value == "")
@@ -52,7 +63,7 @@
                         return true;
                     }
                     return false;
-                }       
+                }
             </script>
         </head>
 
@@ -62,17 +73,39 @@
 
                     <h4>Change Password</h4>
                     <form action="ChangePassword" method="post">
-                        UserID &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                        :&nbsp;<input type="text" name="changePasswordUserID" id="changePasswordUserID">
-                        <br><br>
-                        New Password&nbsp;
-                        :&nbsp;<input type="password" name="newPassword" id="newPassword">
-                        <br><br>
+                        <center>
+
+                            <table>
+                                <tr>
+                                    <td>UserID</td>
+                                    <td>:&nbsp;<input type="text" name="changePasswordUserID" id="changePasswordUserID" autofocus ></td>
+                                </tr>
+                                <tr>
+                                    <td>&nbsp;</td>
+                                </tr>
+                                <tr>
+                                    <td>Your Password</td>
+                                    <td>:&nbsp;<input type="password" name="oldPassword" id="oldPassword"></td>
+                                </tr>
+                                <tr>
+                                    <td>&nbsp;</td>
+                                </tr>
+                                <tr>
+                                    <td>New Password</td>
+                                    <td>:&nbsp;<input type="password" name="newPassword" id="newPassword"></td>
+                                </tr>
+                                <tr>
+                                    <td>&nbsp;</td>
+                                </tr>
+                            </table>
+
+                        </center>
+                        <br>
                         <input type="submit" value="Change Password"  onclick="{
                                     return validateNewPassword();
                                 }"/>
                     </form>                  
-                    <br><br>
+                    <br>
                     <h4>Note: Only your password and tollplaza user's password can be changed.</h4>
                 </div>
             </div>

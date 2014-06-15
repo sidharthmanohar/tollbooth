@@ -67,15 +67,16 @@ public class AdminHome extends HttpServlet {
             }
             stmt.close();
             conn.close();
-            System.out.println(option);
             request.setAttribute("toll_list", option);
             RequestDispatcher dispatcher = servletContext.getRequestDispatcher("/admin/adminHome.jsp");
             dispatcher.forward(request, response);
 
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(AdminHome.class.getName()).log(Level.SEVERE, null, ex);
+            response.sendRedirect("error.jsp");
         } catch (SQLException ex) {
             Logger.getLogger(AdminHome.class.getName()).log(Level.SEVERE, null, ex);
+            response.sendRedirect("error.jsp");
         } finally {
             try {
                 if (stmt != null) {
@@ -84,6 +85,7 @@ public class AdminHome extends HttpServlet {
 
             } catch (SQLException ex) {
                 Logger.getLogger(AdminHome.class.getName()).log(Level.SEVERE, null, ex);
+                response.sendRedirect("error.jsp");
             }
             try {
                 if (conn != null) {
@@ -91,6 +93,7 @@ public class AdminHome extends HttpServlet {
                 }
             } catch (SQLException ex) {
                 Logger.getLogger(AdminHome.class.getName()).log(Level.SEVERE, null, ex);
+                response.sendRedirect("error.jsp");
             }
 
         }

@@ -157,6 +157,7 @@ public class UpdateTariffForm extends HttpServlet {
 
             } catch (SQLException ex) {
                 Logger.getLogger(UpdateTariffForm.class.getName()).log(Level.SEVERE, null, ex);
+                response.sendRedirect("error.jsp");
             }
             try {
                 if (conn != null) {
@@ -164,6 +165,7 @@ public class UpdateTariffForm extends HttpServlet {
                 }
             } catch (SQLException ex) {
                 Logger.getLogger(UpdateTariffForm.class.getName()).log(Level.SEVERE, null, ex);
+                response.sendRedirect("error.jsp");
             }
 
         }

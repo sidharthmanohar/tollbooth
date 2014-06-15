@@ -32,21 +32,10 @@
         <servlet-name>AdminHome</servlet-name>
         <servlet-class>admin.AdminHome</servlet-class>
     </servlet>
-    <servlet>
-        <servlet-name>TariffForm</servlet-name>
-        <servlet-class>admin.TariffForm</servlet-class>
-    </servlet>
-    <servlet>
-        <servlet-name>ProcessTariffForm</servlet-name>
-        <servlet-class>admin.ProcessTariffForm</servlet-class>
-    </servlet>
+
     <servlet>
         <servlet-name>ChangePassword</servlet-name>
         <servlet-class>admin.ChangePassword</servlet-class>
-    </servlet>
-    <servlet>
-        <servlet-name>CreateAdmin</servlet-name>
-        <servlet-class>admin.CreateAdmin</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>TariffMain</servlet-name>
@@ -92,18 +81,12 @@
         <servlet-name>AdminHome</servlet-name>
         <url-pattern>/admin/AdminHome</url-pattern>
     </servlet-mapping>
-    <servlet-mapping>
-        <servlet-name>TariffForm</servlet-name>
-        <url-pattern>/admin/TariffForm</url-pattern>
-    </servlet-mapping>
+
     <servlet-mapping>
         <servlet-name>VerifyTicket</servlet-name>
         <url-pattern>/user/VerifyTicket</url-pattern>
     </servlet-mapping>
-    <servlet-mapping>
-        <servlet-name>ProcessTariffForm</servlet-name>
-        <url-pattern>/admin/ProcessTariffForm</url-pattern>
-    </servlet-mapping>
+
     <servlet>
         <servlet-name>GenerateBankReport</servlet-name>
         <servlet-class>admin.GenerateBankReport</servlet-class>
@@ -132,10 +115,7 @@
         <servlet-name>ChangePassword</servlet-name>
         <url-pattern>/admin/ChangePassword</url-pattern>
     </servlet-mapping>
-    <servlet-mapping>
-        <servlet-name>CreateAdmin</servlet-name>
-        <url-pattern>/admin/CreateAdmin</url-pattern>
-    </servlet-mapping>
+
     <servlet-mapping>
         <servlet-name>TariffMain</servlet-name>
         <url-pattern>/admin/TariffMain</url-pattern>

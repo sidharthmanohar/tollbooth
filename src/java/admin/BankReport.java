@@ -69,8 +69,10 @@ public class BankReport extends HttpServlet{
 
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(BankReport.class.getName()).log(Level.SEVERE, null, ex);
+            response.sendRedirect("error.jsp");
         } catch (SQLException ex) {
             Logger.getLogger(BankReport.class.getName()).log(Level.SEVERE, null, ex);
+            response.sendRedirect("error.jsp");
         } finally {
             try {
                 if (stmt != null) {
@@ -79,6 +81,7 @@ public class BankReport extends HttpServlet{
 
             } catch (SQLException ex) {
                 Logger.getLogger(BankReport.class.getName()).log(Level.SEVERE, null, ex);
+                response.sendRedirect("error.jsp");
             }
             try {
                 if (conn != null) {
@@ -86,6 +89,7 @@ public class BankReport extends HttpServlet{
                 }
             } catch (SQLException ex) {
                 Logger.getLogger(BankReport.class.getName()).log(Level.SEVERE, null, ex);
+                response.sendRedirect("error.jsp");
             }
 
         }
