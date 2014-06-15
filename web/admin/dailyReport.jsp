@@ -39,8 +39,8 @@
                 <div id="page" class="pagebody-centre"> 
                 <br/>
                 <div id="print_content">
+                    
                     <center>
-
                         <h3>Daily Report for <%=request.getAttribute("tollPlaza")%>
                         <br>
                         <br>
@@ -60,6 +60,4 @@
             </div>
         </div>
     </body>
-
-
 </html>

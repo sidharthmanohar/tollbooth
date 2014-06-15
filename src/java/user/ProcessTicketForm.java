@@ -88,15 +88,18 @@ public class ProcessTicketForm extends HttpServlet {
             fromDestination = rs.getString("toll_plaza_name");
             rs.close();
 
+            int  toLocationId;
             //get toDestination
             if (direction == 1) {
                 sql = "SELECT name FROM location WHERE "
                         + "location_id = " + (Integer.parseInt(toTollPlazaId) + 1) + ";";
+                toLocationId = Integer.parseInt(toTollPlazaId) + 1;
             } else {
                 sql = "SELECT name FROM location WHERE "
                         + "location_id = " + toTollPlazaId + ";";
+                toLocationId = Integer.parseInt(toTollPlazaId);
             }
-            System.out.println(sql);
+
             //sql = "SELECT toll_plaza_name FROM toll_plaza where "
             //        + "toll_plaza_id = " + toTollPlazaId + ";";
             rs = stmt.executeQuery(sql);
@@ -274,7 +277,7 @@ public class ProcessTicketForm extends HttpServlet {
                     + vehicleTypeId + ","
                     + fare + ", "
                     + "'" + timeStamp + "', '"
-                    + newTicketNo + "', '" + validity + "');";
+                    + newTicketNo + "', '" + validity + "', "+ toLocationId+");";
             stmt.executeUpdate(sql);
             //update vehicle_tracking table
             sql = "INSERT INTO `vehicle_tracking` VALUES ('"
