@@ -87,7 +87,13 @@ public class VerifyTicket extends HttpServlet {
             Timestamp now = new Timestamp(System.currentTimeMillis() - 300000);
             if (regTime != null && regTime.after(now)) {
                 //user is validating same barcode within 5 min
+                sql = "SELECT vehicle_no, ticket_no FROM ticket WHERE barcode = '" + barcode + "';";
+                rs = stmt.executeQuery(sql);
+                rs.next();
+                session.setAttribute("vTicketNo", rs.getString("ticket_no"));
+                session.setAttribute("vVehicleNo", rs.getString("vehicle_no"));
                 response.sendRedirect("validateResult.jsp?valid=true");
+                rs.close();
             } else {
                 sql = "SELECT vehicle_no, ticket_no,from_toll_plaza_id,to_toll_plaza_id,registration_time,pass_type,validity FROM ticket WHERE barcode = '" + barcode + "';";
                 rs = stmt.executeQuery(sql);
